@@ -1,5 +1,11 @@
 #!/bin/bash
 #
+opt=
+if [ "$1" == "visu-3" ]; then
+    opt="visu-3"
+    echo "Building ######### $opt ##############"
+fi
+
 JIVELITE=jivelite
 JIVELITEVERSION=8.0.0
 SRC=${JIVELITE}
@@ -13,7 +19,7 @@ LUATCZINFO="${LUATCZ}.info"
 ARCH=$(uname -m)
 
 # Build requires these extensions
-tce-load -i compiletc squashfs-tools git libasound-dev patchelf pcp-squeezeplay pcp-squeezeplay-dev pcp-lirc-dev pcp-lirc
+tce-load -il compiletc squashfs-tools git libasound-dev patchelf pcp-squeezeplay pcp-squeezeplay-dev pcp-lirc-dev pcp-lirc
 
 ## Start
 echo "Most log mesages sent to $LOG... only 'errors' displayed here"
@@ -36,7 +42,7 @@ mkdir -p $LUAOUTPUT
 
 echo "Compiling..."
 
-./compile-jivelite.sh >> $LOG
+./compile-jivelite.sh $opt >> $LOG
 
 if [ "$?" -ne "0" ]; then
 	echo "Compiled failed!"
@@ -50,6 +56,21 @@ cp -p bin/jivelite $OUTPUT/opt/jivelite/bin
 mkdir -p $OUTPUT/opt/jivelite/lib
 cp -pr lib $OUTPUT/opt/jivelite
 cp -pr share $OUTPUT/opt/jivelite
+if [ "$opt" == "visu-3" ]; then
+    cp -pr assets $OUTPUT/opt/jivelite
+    date -R > $OUTPUT/opt/jivelite/build.txt
+    echo "git remote -v" >> $OUTPUT/opt/jivelite/build.txt
+    git remote -v >> $OUTPUT/opt/jivelite/build.txt
+    echo "git rev-parse HEAD" >> $OUTPUT/opt/jivelite/build.txt
+    git rev-parse HEAD >> $OUTPUT/opt/jivelite/build.txt
+    echo "git rev-parse HEAD:share/jive" >> $OUTPUT/opt/jivelite/build.txt
+    git rev-parse HEAD:share/jive >> $OUTPUT/opt/jivelite/build.txt
+    echo "git rev-parse HEAD:src" >> $OUTPUT/opt/jivelite/build.txt
+    git rev-parse HEAD:src >> $OUTPUT/opt/jivelite/build.txt
+    echo "git rev-parse HEAD:assets" >> $OUTPUT/opt/jivelite/build.txt
+    git rev-parse HEAD:assets >> $OUTPUT/opt/jivelite/build.txt
+    cat $OUTPUT/opt/jivelite/build.txt
+fi
 
 cd /tmp/tcloop/pcp-squeezeplay/opt/squeezeplay/lib
 tar -cf - libexpat.so* libfreetype.so* libjpeg.so* libpng.so* libpng12.so* libSDL_gfx.so* libSDL_image-1.2.so.* libSDL_ttf-2.0.so* libSDL-1.2.so* | (cd $OUTPUT/opt/jivelite/lib; tar -xvf -)
@@ -116,6 +137,11 @@ cp -pr $OUTPUT/../utils $OUTPUT/opt/jivelite/share/jive/jive/
 # Install script to restart jivelite after a Quit
 cp -p $OUTPUT/../jivelite-sp $OUTPUT/opt/jivelite/bin/jivelite.sh
 chmod 755 $OUTPUT/opt/jivelite/bin/jivelite.sh
+if [ "$opt" == "visu-3" ]; then
+    cp -p $OUTPUT/../pcp-jivelite-info.sh $OUTPUT/opt/jivelite/bin/
+    chmod 755 $OUTPUT/opt/jivelite/bin/pcp-jivelite-info.sh
+    cp -p $OUTPUT/../jivelite.sh.cfg $OUTPUT/opt/jivelite
+fi
 
 # Allow removal of Quit from home menu
 cd $OUTPUT/opt/jivelite/bin
@@ -187,7 +213,9 @@ echo -e "Size:\t\t$(ls -lk pcp-$JIVELITE.tcz | awk '{print $5}')" >> $TCZINFO
 echo -e "Extension_by:\tpiCorePlayer team: http://www.picoreplayer.org/" >> $TCZINFO
 echo -e "\t\tCompiled for piCore 14.x" >> $TCZINFO
 
+if [ "$opt" != "visu-3" ]; then
 ./create-vumeters-tcz.sh
+fi
 
 cp -p $TCZINFO pcp-jivelite_hdskins.tcz.info
 sed -i "s#pcp-$JIVELITE.tcz#pcp-jivelite_hdskins.tcz#" pcp-jivelite_hdskins.tcz.info
@@ -199,4 +227,6 @@ cp -p $TCZINFO pcp-jivelite_wqvgaskins.tcz.info
 sed -i "s#pcp-$JIVELITE.tcz#pcp-jivelite_wqvgaskins.tcz#" pcp-jivelite_wqvgaskins.tcz.info
 sed -i -e '/^Size:*/d' pcp-jivelite_wqvgaskins.tcz.info
 
+if [ "$opt" != "visu-3" ]; then
 ./create-vumeters-alex-tcz.sh
+fi
