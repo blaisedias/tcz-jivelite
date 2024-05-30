@@ -1,8 +1,6 @@
 # Overview
 For now pre-built tcz images are available on google drive see Installation steps below.
 
-* https://drive.google.com/drive/folders/1-yqwfpedEHEOdrOJWuuFtdZsbZQDAxLJ
-
 # Installation
 Note: Installing these images overwrites jivelite images and settings,
 to restore to stock settings either
@@ -28,7 +26,7 @@ rm -f /home/tc/.jivelite/userpath/settings/*
 ssh into piCorePlayer, then type the following commands
 ```
 ce
-wget https://raw.githubusercontent.com/blaisedias/jivelite/visu-3/pcp/scripts/install-visu-3.sh && chmod +x install-visu-3.sh
+wget https://raw.githubusercontent.com/blaisedias/tcz-jivelite/visu-3/install-visu-3.sh && chmod +x install-visu-3.sh
 ./install-visu-3.sh
 ```
 A screen similar to below will be presented
@@ -52,7 +50,7 @@ When piCorePlayer restarts the forked version JiveLite will start.
 
 ## Post install
 After JiveLite has started successfully it is recommended to resize all visualiser images
- see [README.visualiser](../README.visualiserapplet.md) 
+ see [README.visualiser](https://github.com/blaisedias/jivelite/blob/visu-3/README.visualiserapplet.md)
 
 This will yield a smoother UI experience.
 
@@ -71,29 +69,29 @@ The script `/opt/jivelite/bin/pcp-jivelite-info.sh` prints this information in a
 
 For example
 ```
-tc@raspi-zero-w:~$ /opt/jivelite/bin/pcp-jivelite-info.sh 
+tc@raspi-zero-2W:~$ /opt/jivelite/bin/pcp-jivelite-info.sh 
 - System ------------------------------
 Linux raspi-zero-2W 6.1.77-pcpCore-v8 #12 SMP PREEMPT Wed Feb 14 22:25:17 EST 2024 aarch64 GNU/Linux
 - Free Space --------------------------
 Filesystem                Size      Used Available Use% Mounted on
-tmpfs                   376.4M     18.6M    357.9M   5% /
-/dev/mmcblk0p2           11.2G      2.5G      8.2G  24% /mnt/mmcblk0p2
-tmpfs                   376.4M     18.6M    357.9M   5% /
+tmpfs                   376.4M     19.1M    357.3M   5% /
+/dev/mmcblk0p2           11.2G      3.4G      7.3G  32% /mnt/mmcblk0p2
+tmpfs                   376.4M     19.1M    357.3M   5% /
 - Build -------------------------------
-Sat, 25 May 2024 21:48:00 +0100
+Wed, 29 May 2024 23:17:47 +0100
 git remote -v
 origin  https://github.com/blaisedias/jivelite.git (fetch)
 origin  https://github.com/blaisedias/jivelite.git (push)
 git rev-parse HEAD
-db1b773fc7adb99991d1a57c89f188a70b2c266e
+b00fc3186d6ba71927a0820adeaa2b2f2b7df36b
 git rev-parse HEAD:share/jive
-5ad1f3fc218caf3ae845c7d951afa5cc94ed82e9
+cc5b0b38838386e74a2bbfd44b0e00c9ecfc7938
 git rev-parse HEAD:src
 9e2541c000f6f3030dfa28debaaf2bf34a6fdb6a
 git rev-parse HEAD:assets
-72646a3492ee86f4d0c6f92fdb5ba786219215d8
+32cb6924126ed0273e80b336b3d3cd0384e69fbd
 - jivelite binary ---------------------
-JiveLite 8.0.0-visu-3-r487 src:rev:9e2541c000f6f3030dfa28debaaf2bf34a6fdb6a
+JiveLite 8.0.0-visu-3-r489 src:rev:9e2541c000f6f3030dfa28debaaf2bf34a6fdb6a
 features:
         : savePNG
         : fontSelection
@@ -102,7 +100,7 @@ features:
 display resolution: 1024x600 BitsPerPixel:32 wmAvailable:0
 jiveL_font_default fonts/Nunito/Nunito-Regular.ttf
 ---------------------------------------
-tc@raspi-zero-w:~$ 
+tc@raspi-zero-2W:~$
 ```
 
 ## Display Resolution and skin selection
@@ -166,7 +164,7 @@ The trade-off is that JiveLite will write to the piCorePlayer SD Card when an im
 Saving resized images isn't a frequent activity - it would occur once for each resource image and visualisation viewport combination,
 and is deemed a worthy trade-off.
 
-Resize can be done en-block see [README.visualiser](../README.visualiserapplet.md)
+Resize can be done en-block see [README.visualiser](https://github.com/blaisedias/jivelite/blob/visu-3/README.visualiserapplet.md)
 
 The workspace directory can be configured by setting the environment variable `JL_WORKSPACE`.
 
@@ -231,7 +229,7 @@ Doing this removes the negative impacts of
 The procedure is 
 * run JiveLite on a desktop or laptop
 * select the desired skin and resolution
-* resizing all images see [README.visualiser](../README.visualiserapplet.md)
+* resizing all images see [README.visualiser](https://github.com/blaisedias/jivelite/blob/visu-3/README.visualiserapplet.md)
 * repeat the previous 2 steps for other skins if applicable
 * expand pcp-jivelite.tcz - to get a tree of files and directories
 * copy the images from 
@@ -263,11 +261,20 @@ To rectify this is to ssh into piCorePlayer and delete the resized images.
 Resized images have names including the name of the original artwork.
 Restart JiveLite
 
-Alternatively, the JiveLite UI to clear the image cache and resize all images [visualiserapplet](../README.visualiserapplet.md)
+Alternatively, the JiveLite UI to clear the image cache and resize all images [visualiserapplet](https://github.com/blaisedias/jivelite/blob/visu-3/README.visualiserapplet.md)
 # Known issues
-Resizing images on the target can produce stutters in the UI in the NowPlaying views.
+1)Resizing images on the target can produce stutters in the UI in the NowPlaying views.
 
 To a large extent this has been addressed by caching the output of resize operations so should occur just once
 
 Even with caching loading a resized image consumes time, and can result in a noticeable delay.
+
+2) When the wallpaper is changed, transitioning to NowPlaying view with VUMeters results in sluggish VU Meter rendering.
+
+The workaround is to cycle through NowPlaying views.
+
+# Building
+To build the visu-3 variant, use the script `build-visu3.sh`
+
+Note this will *always* remove the jivelite tree, and pull the visu-3 branch from https://github.com/blaisedias/jivelite afresh.
 
