@@ -1,0 +1,27 @@
+#!/bin/sh
+rm -rf jivelite/
+rm -f lua.tar
+rm -f jivelite_touch.tcz
+rm -f pcp-lua.tcz.md5.txt
+rm -f pcp-lua.tcz.list
+rm -f pcp-lua.tcz.info
+rm -f pcp-lua.tcz
+rm -rf lua-build/
+rm -f jivelite_touch.tcz.md5.txt
+rm -f config.log
+rm -f pcp-jivelite.tcz
+rm -f pcp-jivelite.tcz.md5.txt
+rm -f pcp-jivelite.tcz.list
+rm -f pcp-jivelite_hdskins.tcz.md5.txt
+rm -f pcp-jivelite_hdskins.tcz.list
+rm -f pcp-jivelite_hdskins.tcz
+rm -f pcp-jivelite_wqvgaskins.tcz.md5.txt
+rm -f pcp-jivelite_wqvgaskins.tcz.list
+rm -f pcp-jivelite_wqvgaskins.tcz
+rm -f pcp-jivelite_wqvgaskins.tcz.info
+rm -f pcp-jivelite_qvgaskins.tcz.md5.txt
+rm -f pcp-jivelite_qvgaskins.tcz.list
+rm -f pcp-jivelite_qvgaskins.tcz.info
+rm -f pcp-jivelite_qvgaskins.tcz
+rm -f pcp-jivelite_hdskins.tcz.info
+rm -f pcp-jivelite.tcz.info
