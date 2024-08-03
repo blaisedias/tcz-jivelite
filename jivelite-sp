@@ -2,10 +2,10 @@
 
 export LOG=/var/log/pcp_jivelite.log
 
-#-- visu-3 {
+#-- visu-4 {
 AUTO_WORKSPACE_SETUP=1
 AUTO_TOUCHSCREEN_SETUP=0
-#-- } visu-3
+#-- } visu-4
 
 if [ -f /usr/local/etc/pcp/pcp.cfg ]; then
     source /usr/local/etc/pcp/pcp.cfg
@@ -52,7 +52,7 @@ fi
 
 export HOME=/home/tc
 
-#-- visu-3 {
+#-- visu-4 {
 TCEMNT="/mnt/$(readlink /etc/sysconfig/tcedir | cut -d '/' -f3)"
 TCEDIR="${TCEMNT}/tce"
 
@@ -115,7 +115,7 @@ else
     fi
 fi
 #-- } workspace
-#-- } visu-3
+#-- } visu-4
 
 while true; do
     sleep 3

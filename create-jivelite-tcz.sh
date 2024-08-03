@@ -1,8 +1,8 @@
 #!/bin/bash
 #
 opt=
-if [ "$1" == "visu-3" ]; then
-    opt="visu-3"
+if [ "$1" == "visu-4" ]; then
+    opt="visu-4"
     echo "Building ######### $opt ##############"
 fi
 
@@ -56,7 +56,7 @@ cp -p bin/jivelite $OUTPUT/opt/jivelite/bin
 mkdir -p $OUTPUT/opt/jivelite/lib
 cp -pr lib $OUTPUT/opt/jivelite
 cp -pr share $OUTPUT/opt/jivelite
-if [ "$opt" == "visu-3" ]; then
+if [ "$opt" == "visu-4" ]; then
     cp -pr assets $OUTPUT/opt/jivelite
     date -R > $OUTPUT/opt/jivelite/build.txt
     echo "git remote -v" >> $OUTPUT/opt/jivelite/build.txt
@@ -137,7 +137,7 @@ cp -pr $OUTPUT/../utils $OUTPUT/opt/jivelite/share/jive/jive/
 # Install script to restart jivelite after a Quit
 cp -p $OUTPUT/../jivelite-sp $OUTPUT/opt/jivelite/bin/jivelite.sh
 chmod 755 $OUTPUT/opt/jivelite/bin/jivelite.sh
-if [ "$opt" == "visu-3" ]; then
+if [ "$opt" == "visu-4" ]; then
     cp -p $OUTPUT/../pcp-jivelite-info.sh $OUTPUT/opt/jivelite/bin/
     chmod 755 $OUTPUT/opt/jivelite/bin/pcp-jivelite-info.sh
     cp -p $OUTPUT/../jivelite.sh.cfg $OUTPUT/opt/jivelite
@@ -213,7 +213,7 @@ echo -e "Size:\t\t$(ls -lk pcp-$JIVELITE.tcz | awk '{print $5}')" >> $TCZINFO
 echo -e "Extension_by:\tpiCorePlayer team: http://www.picoreplayer.org/" >> $TCZINFO
 echo -e "\t\tCompiled for piCore 14.x" >> $TCZINFO
 
-if [ "$opt" != "visu-3" ]; then
+if [ "$opt" != "visu-4" ]; then
 ./create-vumeters-tcz.sh
 fi
 
@@ -227,6 +227,6 @@ cp -p $TCZINFO pcp-jivelite_wqvgaskins.tcz.info
 sed -i "s#pcp-$JIVELITE.tcz#pcp-jivelite_wqvgaskins.tcz#" pcp-jivelite_wqvgaskins.tcz.info
 sed -i -e '/^Size:*/d' pcp-jivelite_wqvgaskins.tcz.info
 
-if [ "$opt" != "visu-3" ]; then
+if [ "$opt" != "visu-4" ]; then
 ./create-vumeters-alex-tcz.sh
 fi
