@@ -28,4 +28,4 @@ tce-load -il pcp-lirc
 tce-load -il compiletc
 
 ./cleanup.sh
-./create-jivelite-tcz.sh visu-3
+./create-jivelite-tcz.sh visu-4

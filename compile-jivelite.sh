@@ -13,7 +13,7 @@ case "$ARCH" in
                 ;;
 esac
 
-if [ "$opt" != "visu-3" ]; then
+if [ "$opt" != "visu-4" ]; then
 
 if [ ! -d jivelite ]; then
 	git clone https://github.com/ralph-irving/jivelite.git
@@ -34,13 +34,13 @@ fi
 else
     echo "########### compiling for $opt ############"
 	rm -rf jivelite
-	git clone https://github.com/blaisedias/jivelite.git -b visu-3
+	git clone https://github.com/blaisedias/jivelite.git -b visu-4
 	cd jivelite
 	git submodule update --init --recursive
 	cd lib-src
 	git clone https://github.com/ralph-irving/lirc-bsp
 	cd ../
-	patch -p1 -i../visu-3-jivelite-picoplayer-$CPU.patch || exit 1
+	patch -p1 -i../visu-4-jivelite-picoplayer-$CPU.patch || exit 1
     date -R > ./build.txt
     echo "git remote -v" >> ./build.txt
     git remote -v >> ./build.txt
@@ -55,7 +55,7 @@ else
 fi
 
 # Set jivelite version to 8.0.0 to indicate slimdevices player lua applet compatibility.
-if [ "$opt" != "visu-3" ]; then
+if [ "$opt" != "visu-4" ]; then
 echo "#define JIVE_VERSION \"8.0.0-r$(git rev-list HEAD --count)\"" > src/version.h
 else
 echo "#define JIVE_VERSION \"8.0.0-$opt-r$(git rev-list HEAD --count)\"" > src/version.h
