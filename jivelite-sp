@@ -2,11 +2,6 @@
 
 export LOG=/var/log/pcp_jivelite.log
 
-#-- visu-4 {
-AUTO_WORKSPACE_SETUP=1
-AUTO_TOUCHSCREEN_SETUP=0
-#-- } visu-4
-
 if [ -f /usr/local/etc/pcp/pcp.cfg ]; then
     source /usr/local/etc/pcp/pcp.cfg
     if [ ! -z ${SCREENROTATE} ]; then
@@ -29,7 +24,6 @@ fi
 
 if [ -z ${JL_FRAME_RATE} ]; then
     JL_FRAME_RATE=22
-    echo "Defaulting framerate to $JL_FRAME_RATE"
 fi
 
 export JIVE_FRAMERATE=$JL_FRAME_RATE
@@ -51,71 +45,6 @@ if [ ! -z ${SDL_TOUCHSCREEN} ]; then
 fi
 
 export HOME=/home/tc
-
-#-- visu-4 {
-TCEMNT="/mnt/$(readlink /etc/sysconfig/tcedir | cut -d '/' -f3)"
-TCEDIR="${TCEMNT}/tce"
-
-#-- load user config {
-# from home directory
-config_sh=""
-if [ -f /home/tc/jivelite.sh.cfg ]; then
-    config_sh="/home/tc/jivelite.sh.cfg"
-# or from tce
-elif [ -f "${TCEDIR}/jivelite.sh.cfg" ]; then
-    config_sh="${TCEDIR}/jivelite.sh.cfg"
-fi
-
-if [ "$config_sh" != "" ]; then
-    echo "Using ${config_sh}" >> $LOG
-    echo "--------------------------------" >> $LOG
-    cat "${config_sh}" >> $LOG
-    echo "--------------------------------" >> $LOG
-    source "${config_sh}" >> $LOG
-fi
-#-- } load user config
-
-#-- touch screen setup {
-has_touch_screen=$(udevadm info --export-db | grep 'ID_INPUT_TOUCHSCREEN=1' | wc -l)
-if [ "$has_touch_screen" != "0" ]; then
-    echo "Touch screen detected"
-else
-    echo "Touch screen not detected"
-fi
-
-if [ "${AUTO_TOUCHSCREEN_SETUP}" == "1" ] && [ "$has_touch_screen" != "0" ]; then
-    echo "auto touch screen setup:" >> $LOG
-    ev=$(cat /proc/bus/input/devices | grep mouse | sed -e 's# $##' -e 's#^.* ##')
-    if [ "$ev" != "" ] ; then
-        echo "auto touch screen setup: found mouse input device: $ev" >> $LOG
-        if [ "$TSLIB_TSDEVICE" == "" ]; then
-            export TSLIB_TSDEVICE=/dev/input/$ev
-        fi
-        if [ "$SDL_MOUSEDRV" == "" ]; then
-            export SDL_MOUSEDRV=TSLIB
-        fi
-    fi
-    # TSLIB_CALIBFILE may have been set before
-    if [ -f '/usr/local/etc/pointercal' ] && [ "$TSLIB_CALIBFILE" == ""]; then
-        echo "auto touch screen setup: using /usr/local/etc/pointercal" >> $LOG
-        export TSLIB_CALIBFILE=/usr/local/etc/pointercal
-    fi
-fi
-#-- } touch screen setup
-
-#-- workspace {
-if [ "$JL_WORKSPACE" != "" ]; then
-    echo "workspace: $JL_WORKSPACE" >> $LOG
-else
-    if [ "${AUTO_WORKSPACE_SETUP}" == "1" ] && [ "$JL_WORKSPACE" == "" ]; then
-        export JL_WORKSPACE="${TCEDIR}/jivelite-workspace"
-        echo "auto workspace setup: workspace: $JL_WORKSPACE" >> $LOG
-    else
-        echo "workspace: is not set" >> $LOG
-    fi
-fi
-#-- } workspace
-#-- } visu-4
 
 while true; do
     sleep 3
