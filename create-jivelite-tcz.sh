@@ -140,7 +140,7 @@ chmod 755 $OUTPUT/opt/jivelite/bin/jivelite.sh
 if [ "$opt" == "visu-4" ]; then
     cp -p $OUTPUT/../pcp-jivelite-info.sh $OUTPUT/opt/jivelite/bin/
     chmod 755 $OUTPUT/opt/jivelite/bin/pcp-jivelite-info.sh
-    cp -p $OUTPUT/../jivelite.sh.cfg $OUTPUT/opt/jivelite
+    cp -p $OUTPUT/../example-jivelite-custom.sh $OUTPUT/opt/jivelite
 fi
 
 # Allow removal of Quit from home menu

@@ -29,22 +29,8 @@ ce
 wget https://raw.githubusercontent.com/blaisedias/tcz-jivelite/visu-4/install-visu-4.sh && chmod +x install-visu-4.sh
 ./install-visu-4.sh
 ```
-A screen similar to below will be presented
-```
-This script, downloads and installs a forked version of jivelite
-on top of an existing installation of jivelite
-installation type: 32 bit
-installation path: /mnt/mmcblk0p2/tce/optional
-If the installation details are correct,
-press y then <enter> to proceed with the installation.
-Press <enter> to cancel
-```
-If installation details match press `y` and then `<enter>` to install.
 
-Finally type
-```
-sudo reboot
-```
+Follow the instructions on the screen.
 
 When piCorePlayer restarts the forked version JiveLite will start.
 
@@ -166,35 +152,9 @@ and is deemed a worthy trade-off.
 
 Resize can be done en-block see [README.visualiser](https://github.com/blaisedias/jivelite/blob/visu-4/README.visualiserapplet.md)
 
-The workspace directory can be configured by setting the environment variable `JL_WORKSPACE`.
-
-Set the environment variable `JL_WORKSPACE` to a valid path on the piCorePlayer SD Card before starting JiveLite,
-and it will then use locations under that path as the resized image cache location.
-
-Support has been added to make this the default, see
-* /opt/jivelite/jivelite.sh.cfg
-
-`AUTO_WORKSPACE_SETUP` is set to 1 by default in jivelite.sh 
-
-The `jivelite.sh` scripts reads that value and then
- * chooses a location as the workspace directory
- * sets `JL_WORKSPACE` to point to the workspace directory
-
-Typically this location is `/mnt/mmcblk0p2/tce/jivelite-workspace`.
-This can be verified by looking at `/var/log/pcp_jivelite.log`
-
-It should contain lines similar to these
-```
-auto workspace setup: workspace: /mnt/mmcblk0p2/tce/jivelite-workspace
-```
-
-To use another location as workspace for e.g. on a 3rd partition 
-* copy `/opt/jivelite/pcp-scripts/jivelite.sh.cfg` to `/home/tc`
-* edit it so that
- * AUTO_WORKSPACE_SETUP=0
- * export JL_WORKSPACE="&lt;path&gt;"
-   * the path must be an absolute path, for example `/mnt/mmcblk0p3/jivelite/workspace`
- * backup (`pcp bu`)
+The workspace directory can be configured in the JiveLite UI, see menuitem `Workspace` in the `Visualiser` settings menu.
+This is a setting, and can be made persistent by backup (`pcp bu`). It is advisable to restart JiveLite after changing
+the workspace setting.
 
 ### workspace layout
 * `cache/resized` : resized visualisation images are stored here
@@ -239,19 +199,6 @@ The procedure is
 * rebuild pcp-jivelite.tcz from the tree
 * install the rebuilt pcp-jivelite.tcz
 
-## Touch screen setup
-And additional feature implemented in `jivelite.sh` is the *automatic* setup of the touch
-screen for JiveLite.
-
-copy `/opt/jivelite/jivelite.sh.cfg` to `/home/tc`
-
-The set `AUTO_TOUCHSCREEN_SETUP=1` in `/home/tc/jivelite.sh.cfg` and backup (`pcp bu`)
-
-Note: this functionality has been tested and verified to work on 2 platforms using,
-the same touch screen.
-
-Touch screen calibration should have been performed and saved prior to turning this feature ON.
-
 ## Stale cache entries
 Once a resized image is cached the original artwork will not be loaded again by JiveLite.
 
@@ -261,7 +208,7 @@ To rectify this is to ssh into piCorePlayer and delete the resized images.
 Resized images have names including the name of the original artwork.
 Restart JiveLite
 
-Alternatively, the JiveLite UI to clear the image cache and resize all images [visualiserapplet](https://github.com/blaisedias/jivelite/blob/visu-4/README.visualiserapplet.md)
+Alternatively, the JiveLite UI supports deleting resized images (deletes all images) [visualiserapplet](https://github.com/blaisedias/jivelite/blob/visu-4/README.visualiserapplet.md)
 # Known issues
 1)Resizing images on the target can produce stutters in the UI in the NowPlaying views.
 
