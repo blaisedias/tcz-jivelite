@@ -1,11 +1,11 @@
 #!/bin/bash
 #
-opt=
+branch=
 if [ "$1" == "" ]; then
-    opt="$1"
-    echo "Building ######### $opt ##############"
-else
     exit 1
+else
+    branch="$1"
+    echo "Building branch $branch"
 fi
 
 JIVELITE=jivelite
@@ -44,7 +44,7 @@ mkdir -p $LUAOUTPUT
 
 echo "Compiling..."
 
-./compile-jivelite-vis.sh $opt >> $LOG
+./compile-jivelite-vis.sh $branch >> $LOG
 
 if [ "$?" -ne "0" ]; then
 	echo "Compiled failed!"
