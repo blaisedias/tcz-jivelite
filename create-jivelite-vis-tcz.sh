@@ -63,6 +63,8 @@ cp -pr share $OUTPUT/opt/jivelite
     date -R > $OUTPUT/opt/jivelite/build.txt
     echo "git remote -v" >> $OUTPUT/opt/jivelite/build.txt
     git remote -v >> $OUTPUT/opt/jivelite/build.txt
+    echo "git branch --show-current" >> $OUTPUT/opt/jivelite/build.txt
+    git branch --show-current >> $OUTPUT/opt/jivelite/build.txt
     echo "git rev-parse HEAD" >> $OUTPUT/opt/jivelite/build.txt
     git rev-parse HEAD >> $OUTPUT/opt/jivelite/build.txt
     echo "git rev-parse HEAD:share/jive" >> $OUTPUT/opt/jivelite/build.txt
