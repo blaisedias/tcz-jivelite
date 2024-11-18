@@ -55,9 +55,9 @@ esac
 # Set jivelite version to 8.0.0 to indicate slimdevices player lua applet compatibility.
 #echo "#define JIVE_VERSION \"8.0.0-r$(git rev-list HEAD --count)\"" > src/version.h
 echo "#define JIVE_VERSION \"8.0.0-$opt-r$(git rev-list HEAD --count)\"" > src/version.h
-echo "#define SRC_GIT_REMOTE \"$(git remote -v | grep fetch)\"" > src/long_version.h
-echo "#define SRC_GIT_BRANCH \"$(git branch --show-current)\"" >> src/long_version.h
-echo "#define SRC_GIT_HEAD_REV \"$(git rev-parse HEAD)\"" >> src/long_version.h
+#echo "#define SRC_GIT_REMOTE \"$(git remote -v | grep fetch)\"" > src/long_version.h
+#echo "#define SRC_GIT_BRANCH \"$(git branch --show-current)\"" >> src/long_version.h
+#echo "#define SRC_GIT_HEAD_REV \"$(git rev-parse HEAD)\"" >> src/long_version.h
 
 make all || exit 2
 
