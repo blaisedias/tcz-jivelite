@@ -25,3 +25,20 @@ rm -f pcp-jivelite_qvgaskins.tcz.info
 rm -f pcp-jivelite_qvgaskins.tcz
 rm -f pcp-jivelite_hdskins.tcz.info
 rm -f pcp-jivelite.tcz.info
+
+rm -f pcp-jivelite-vis.tcz
+rm -f pcp-jivelite-vis.tcz.md5.txt
+rm -f pcp-jivelite-vis.tcz.list
+rm -f pcp-jivelite-vis_hdskins.tcz.md5.txt
+rm -f pcp-jivelite-vis_hdskins.tcz.list
+rm -f pcp-jivelite-vis_hdskins.tcz
+rm -f pcp-jivelite-vis_wqvgaskins.tcz.md5.txt
+rm -f pcp-jivelite-vis_wqvgaskins.tcz.list
+rm -f pcp-jivelite-vis_wqvgaskins.tcz
+rm -f pcp-jivelite-vis_wqvgaskins.tcz.info
+rm -f pcp-jivelite-vis_qvgaskins.tcz.md5.txt
+rm -f pcp-jivelite-vis_qvgaskins.tcz.list
+rm -f pcp-jivelite-vis_qvgaskins.tcz.info
+rm -f pcp-jivelite-vis_qvgaskins.tcz
+rm -f pcp-jivelite-vis_hdskins.tcz.info
+rm -f pcp-jivelite-vis.tcz.info

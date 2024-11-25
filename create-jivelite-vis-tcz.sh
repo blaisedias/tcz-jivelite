@@ -15,7 +15,7 @@ LOG=$PWD/config.log
 OUTPUT=$PWD/${JIVELITE}-build
 LUAOUTPUT=$PWD/lua-build
 TCZ="${JIVELITE}_touch.tcz"
-TCZINFO="pcp-${JIVELITE}.tcz.info"
+TCZINFO="pcp-${JIVELITE}-vis.tcz.info"
 LUATCZ="pcp-lua.tcz"
 LUATCZINFO="${LUATCZ}.info"
 ARCH=$(uname -m)
@@ -204,16 +204,16 @@ echo -e "Size:\t\t$(ls -lk $LUATCZ | awk '{print $5}')" >> $LUATCZINFO
 echo -e "Extension_by:\tpiCorePlayer team: http://www.picoreplayer.org/" >> $LUATCZINFO
 echo -e "\t\tCompiled for piCore 14.x" >> $LUATCZINFO
 
-./split-jivelite-tcz.sh
+./split-jivelite-vis-tcz.sh
 
-echo -e "Title:\t\tpcp-$JIVELITE.tcz" > $TCZINFO
+echo -e "Title:\t\tpcp-${JIVELITE}-vis.tcz" > $TCZINFO
 echo -e "Description:\tCommunity squeezebox controller." >> $TCZINFO
 echo -e "Version:\t$(awk -F\" '{printf "%s", $2}' jivelite/src/version.h)" >> $TCZINFO
 echo -e "Commit:\t\t$(cd $SRC; git show | grep commit | awk '{print $2}')" >> $TCZINFO
 echo -e "Authors:\tAdrian Smith, Ralph Irving, Michael Herger" >> $TCZINFO
 echo -e "Original-site:\t$(grep url $SRC/.git/config | awk '{print $3}')" >> $TCZINFO
 echo -e "Copying-policy:\tGPLv3" >> $TCZINFO
-echo -e "Size:\t\t$(ls -lk pcp-$JIVELITE.tcz | awk '{print $5}')" >> $TCZINFO
+echo -e "Size:\t\t$(ls -lk pcp-${JIVELITE}-vis.tcz | awk '{print $5}')" >> $TCZINFO
 echo -e "Extension_by:\tpiCorePlayer team: http://www.picoreplayer.org/" >> $TCZINFO
 echo -e "\t\tCompiled for piCore 14.x" >> $TCZINFO
 
@@ -221,15 +221,15 @@ echo -e "\t\tCompiled for piCore 14.x" >> $TCZINFO
 #./create-vumeters-tcz.sh
 
 
-cp -p $TCZINFO pcp-jivelite_hdskins.tcz.info
-sed -i "s#pcp-$JIVELITE.tcz#pcp-jivelite_hdskins.tcz#" pcp-jivelite_hdskins.tcz.info
-sed -i -e '/^Size:*/d' pcp-jivelite_hdskins.tcz.info
-cp -p $TCZINFO pcp-jivelite_qvgaskins.tcz.info
-sed -i "s#pcp-$JIVELITE.tcz#pcp-jivelite_qvgaskins.tcz#" pcp-jivelite_qvgaskins.tcz.info
-sed -i -e '/^Size:*/d' pcp-jivelite_qvgaskins.tcz.info
-cp -p $TCZINFO pcp-jivelite_wqvgaskins.tcz.info
-sed -i "s#pcp-$JIVELITE.tcz#pcp-jivelite_wqvgaskins.tcz#" pcp-jivelite_wqvgaskins.tcz.info
-sed -i -e '/^Size:*/d' pcp-jivelite_wqvgaskins.tcz.info
+cp -p $TCZINFO pcp-jivelite-vis_hdskins.tcz.info
+sed -i "s#pcp-${JIVELITE}-vis.tcz#pcp-jivelite-vis_hdskins.tcz#" pcp-jivelite-vis_hdskins.tcz.info
+sed -i -e '/^Size:*/d' pcp-jivelite-vis_hdskins.tcz.info
+cp -p $TCZINFO pcp-jivelite-vis_qvgaskins.tcz.info
+sed -i "s#pcp-${JIVELITE}-vis.tcz#pcp-jivelite-vis_qvgaskins.tcz#" pcp-jivelite-vis_qvgaskins.tcz.info
+sed -i -e '/^Size:*/d' pcp-jivelite-vis_qvgaskins.tcz.info
+cp -p $TCZINFO pcp-jivelite-vis_wqvgaskins.tcz.info
+sed -i "s#pcp-${JIVELITE}-vis.tcz#pcp-jivelite-vis_wqvgaskins.tcz#" pcp-jivelite-vis_wqvgaskins.tcz.info
+sed -i -e '/^Size:*/d' pcp-jivelite-vis_wqvgaskins.tcz.info
 
 
 #./create-vumeters-alex-tcz.sh
