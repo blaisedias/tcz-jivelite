@@ -36,7 +36,7 @@ if [ -f pcp-jivelite-vis.tcz ]; then
 	rm pcp-jivelite-vis.tcz
 fi
 
-mksquashfs jivelite-build pcp-jivelite-vis.tcz -all-root -no-progress
+mksquashfs jivelite-build pcp-jivelite-vis.tcz -b $SQFS_BLOCKSIZE -all-root -no-progress
 md5sum pcp-jivelite-vis.tcz > pcp-jivelite-vis.tcz.md5.txt
 cd jivelite-build
 find * -not -type d > ../pcp-jivelite-vis.tcz.list
@@ -49,7 +49,7 @@ if [ -f pcp-jivelite-vis_hdskins.tcz ]; then
 	rm pcp-jivelite-vis_hdskins.tcz
 fi
 
-mksquashfs jivelite-build pcp-jivelite-vis_hdskins.tcz -all-root -no-progress
+mksquashfs jivelite-build pcp-jivelite-vis_hdskins.tcz -b $SQFS_BLOCKSIZE -all-root -no-progress
 md5sum pcp-jivelite-vis_hdskins.tcz > pcp-jivelite-vis_hdskins.tcz.md5.txt
 cd jivelite-build
 find * -not -type d > ../pcp-jivelite-vis_hdskins.tcz.list
@@ -62,7 +62,7 @@ if [ -f pcp-jivelite-vis_wqvgaskins.tcz ]; then
 	rm pcp-jivelite-vis_wqvgaskins.tcz
 fi
 
-mksquashfs jivelite-build pcp-jivelite-vis_wqvgaskins.tcz -all-root -no-progress
+mksquashfs jivelite-build pcp-jivelite-vis_wqvgaskins.tcz -b $SQFS_BLOCKSIZE -all-root -no-progress
 md5sum pcp-jivelite-vis_wqvgaskins.tcz > pcp-jivelite-vis_wqvgaskins.tcz.md5.txt
 cd jivelite-build
 find * -not -type d > ../pcp-jivelite-vis_wqvgaskins.tcz.list
@@ -75,7 +75,7 @@ if [ -f pcp-jivelite-vis_qvgaskins.tcz ]; then
 	rm pcp-jivelite-vis_qvgaskins.tcz
 fi
 
-mksquashfs jivelite-build pcp-jivelite-vis_qvgaskins.tcz -all-root -no-progress
+mksquashfs jivelite-build pcp-jivelite-vis_qvgaskins.tcz -b $SQFS_BLOCKSIZE -all-root -no-progress
 md5sum pcp-jivelite-vis_qvgaskins.tcz > pcp-jivelite-vis_qvgaskins.tcz.md5.txt
 cd jivelite-build
 find * -not -type d > ../pcp-jivelite-vis_qvgaskins.tcz.list
