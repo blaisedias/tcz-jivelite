@@ -166,7 +166,15 @@ if [ -f $TCZ ]; then
 	rm $TCZ >> $LOG
 fi
 
-mksquashfs $OUTPUT $TCZ -all-root -no-progress >> $LOG
+case $ARCH in
+	aarch64) export SQFS_BLOCKSIZE=16384 ;;
+	*) export SQFS_BLOCKSIZE=4096 ;;
+esac
+
+
+echo "squashfs BLOCKSIZE is $SQFS_BLOCKSIZE"
+
+mksquashfs $OUTPUT $TCZ -b $SQFS_BLOCKSIZE -all-root -no-progress >> $LOG
 md5sum `basename $TCZ` > ${TCZ}.md5.txt
 
 cd $LUAOUTPUT >> $LOG
@@ -181,12 +189,7 @@ if [ -f $LUATCZ ]; then
 	rm $LUATCZ >> $LOG
 fi
 
-case $ARCH in
-	aarch64) BLOCKSIZE=16384 ;;
-	*) BLOCKSIZE=4096 ;;
-esac
-
-mksquashfs $LUAOUTPUT $LUATCZ -b $BLOCKSIZE -all-root -no-progress >> $LOG
+mksquashfs $LUAOUTPUT $LUATCZ -b $SQFS_BLOCKSIZE -all-root -no-progress >> $LOG
 md5sum `basename $LUATCZ` > $LUATCZ.md5.txt
 
 cd $LUAOUTPUT >> $LOG
