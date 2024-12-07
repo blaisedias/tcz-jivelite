@@ -114,25 +114,6 @@ echo "Frame buffer color bit depth set to $JL_FRAME_DEPTH." >> $LOG
 
 export HOME=/home/tc
 
-#-- customisation shell script {
-# from home directory
-TCEMNT="/mnt/$(readlink /etc/sysconfig/tcedir | cut -d '/' -f3)"
-TCEDIR="${TCEMNT}/tce"
-custom_sh=""
-if [ -f /home/tc/jivelite-custom.sh ]; then
-    custom_sh="/home/tc/jivelite-custom.sh"
-# or from tce
-elif [ -f "${TCEDIR}/jivelite-custom.sh" ]; then
-    custom_sh="${TCEDIR}/jivelite-custom.sh"
-fi
-
-if [ "$custom_sh" != "" ]; then
-    echo "Invoking ${custom_sh}" >> $LOG
-    source "${custom_sh}" >> $LOG
-fi
-#-- } customisation shell script
-
-
 while true; do
     sleep 3
     /opt/jivelite/bin/jivelite >> $LOG 2>&1
