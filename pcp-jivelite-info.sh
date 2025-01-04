@@ -6,5 +6,5 @@ df -h /mnt/*
 echo "- Build -------------------------------"
 cat /opt/jivelite/build.txt
 echo "- jivelite binary ---------------------"
-grep 'src:rev'  /var/log/pcp_jivelite.log -A 10
+grep 'src:rev'  /var/log/pcp_jivelite.log -A 25
 echo "---------------------------------------"
