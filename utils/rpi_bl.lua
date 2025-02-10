@@ -6,61 +6,39 @@ local tonumber = tonumber
 
 module(...)
 
-local init = nil
+local initialised = false
 --local backlightpath = "/"
 local brightness = "/brightness"
 local max_brightness = "/max_brightness"
 local bl_power = "/bl_power"
-
 local pCP_lcdscript = "/home/tc/lcd-brightness.sh"
 local pidisplay = nil
-
-
-if init == nil then
---    backlightpath = "/"
-    brightness = "/brightness"
-    max_brightness = "/max_brightness"
-    bl_power = "/bl_power"
-
-    pCP_lcdscript = "/home/tc/lcd-brightness.sh"
-end
-
-function set()
-    if init == nil then
-        log:info("Init: First Run")
-    else
-        log:info("Init:" .. init)
-    end
-
-    -- Find Raspberry display driver backlight links
-    local ret = _read_capture("readlink /sys/class/backlight/*")
-    local tmp = "/sys/class/backlight/" .. ret
-    local backlightpath = tmp:gsub("[\n\r]", "")
-    brightness = backlightpath .. "/brightness"
-    max_brightness = backlightpath .. "/max_brightness"
-    bl_power = backlightpath .. "/bl_power"
-    log:debug("brightness: " .. brightness)
-    log:debug("maxbrightness: " .. max_brightness)
-    log:debug("power: " .. bl_power)
-
-    if _file_exists(brightness) then
-        pidisplay = "pitouch"
-    end
-
-    if pidisplay == nil then
-        if _file_exists(pCP_lcdscript) then
-            pidisplay = "lcd"
-        end
-    end
-
-    log:info("Setting touchscreen to: " .. pidisplay)
-    init = 1
-end
+local touchChecked = false
+local hasTouch = nil
 
 function PiDisplay()
-    if init == nil then
-        set()
+    if initialised == false then
+        -- Find Raspberry display driver backlight links
+        local ret = _read_capture("readlink /sys/class/backlight/*")
+        local tmp = "/sys/class/backlight/" .. ret
+        local backlightpath = tmp:gsub("[\n\r]", "")
+        brightness = backlightpath .. "/brightness"
+        max_brightness = backlightpath .. "/max_brightness"
+        bl_power = backlightpath .. "/bl_power"
+        log:debug("brightness: " .. brightness)
+        log:debug("maxbrightness: " .. max_brightness)
+        log:debug("power: " .. bl_power)
+
+        if _file_exists(brightness) then
+            pidisplay = "pitouch"
+        elseif _file_exists(pCP_lcdscript) then
+            pidisplay = "lcd"
+        end
+
+        log:info("Setting touchscreen to: " .. pidisplay)
+        initialised = true
     end
+    log:info("display is : " .. pidisplay)
     return pidisplay
 end
 
@@ -132,18 +110,14 @@ function get_pCP_display_max_brightness()
 end
 
 function isTouch()
-    if touch == nil then
+    if touchChecked == false then
         local cmd = "udevadm info --export-db | grep ID_INPUT_TOUCHSCREEN"
         local ret = _read_capture(cmd)
         log:debug("udev found: " .. ret)
-        touch = 1
+        touchChecked = true
         hasTouch = ret
     end
-    if hasTouch ~= nil then
-        return hasTouch
-    else
-        return nil
-    end
+    return hasTouch
 end
 
 function _file_exists(name)
