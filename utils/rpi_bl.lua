@@ -6,8 +6,18 @@ local tonumber = tonumber
 
 module(...)
 
+local init = nil
+--local backlightpath = "/"
+local brightness = "/brightness"
+local max_brightness = "/max_brightness"
+local bl_power = "/bl_power"
+
+local pCP_lcdscript = "/home/tc/lcd-brightness.sh"
+local pidisplay = nil
+
+
 if init == nil then
-    backlightpath = "/"
+--    backlightpath = "/"
     brightness = "/brightness"
     max_brightness = "/max_brightness"
     bl_power = "/bl_power"
@@ -21,9 +31,9 @@ function set()
     else
         log:info("Init:" .. init)
     end
-  
+
     -- Find Raspberry display driver backlight links
-    local ret = _read_capture("readlink /sys/class/backlight/*")	   
+    local ret = _read_capture("readlink /sys/class/backlight/*")
     local tmp = "/sys/class/backlight/" .. ret
     local backlightpath = tmp:gsub("[\n\r]", "")
     brightness = backlightpath .. "/brightness"
@@ -138,7 +148,10 @@ end
 
 function _file_exists(name)
    local f=io.open(name,"r")
-   if f~=nil then io.close(f) return true else return false end
+   if io.type(f) == nil then return false end
+   if io.type(f) == "file" then io.close(f) return true end
+   -- for completeness --
+   if io.type(f) == "closed file" then return true end
 end
 
 function _write(file, val)
