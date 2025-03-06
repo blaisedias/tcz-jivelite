@@ -50,6 +50,7 @@ local debug             = require("jive.utils.debug")
 local Applet            = require("jive.Applet")
 
 local appletManager     = appletManager
+local log               = require("jive.utils.log").logger("applet.piCorePlayer")
 
 module(..., Framework.constants)
 oo.class(_M, Applet)
@@ -84,6 +85,13 @@ local pCP_is_player_connected_to_LMS_cmd = "/usr/local/sbin/pcp connection_statu
 local pCP_rescan_LMS_media_library_min_version = 2.06
 local pCP_rescan_LMS_media_library_cmd = "/usr/local/sbin/pcp rescan"
 local pCP_rescan_LMS_media_library_in_progress_cmd = "/usr/local/sbin/pcp rescan_status"
+
+local function local_tonumber(v)
+    if v == nil then
+        return nil
+    end
+    return tonumber(v)
+end
 
 function menu(self, menuItem)
     local window = Window("text_list", "piCorePlayer")
@@ -382,13 +390,13 @@ end
 
 function adjustDisplayBrightnessWhenOff(self, menuItem)
     if getpCPVersion() ~= nil then
-        local currentBrightness = tonumber(rpi.get_pCP_display_current_brightness())
+        local currentBrightness = local_tonumber(rpi.get_pCP_display_current_brightness())
         if currentBrightness == nil then
             currentBrightness = tonumber("50")
         end
 
-        if currentBrightness ~= nil then
-            local maxBrightness = tonumber(rpi.get_pCP_display_max_brightness())
+        if rpi.PiDisplay() ~= nil then
+            local maxBrightness = local_tonumber(rpi.get_pCP_display_max_brightness())
             local brightnessWhenOff = currentBrightness
             if self:getSettings()["pcp_rpi_display_brightness_when_off"] then
                 brightnessWhenOff = self:getSettings()["pcp_rpi_display_brightness_when_off"]
@@ -511,11 +519,14 @@ function adjustDisplayBrightnessWhenOff(self, menuItem)
 end
 
 function adjustDisplayBrightness(self, menuItem)
+    log:debug("adjustDisplayBrightness : start")
     if getpCPVersion() ~= nil then
-        local currentBrightness = tonumber(rpi.get_pCP_display_current_brightness())
+        local currentBrightness = local_tonumber(rpi.get_pCP_display_current_brightness())
+        log:debug("adjustDisplayBrightness: currentBrightness=", currentBrightness)
         if currentBrightness ~= nil then
-            local maxBrightness = tonumber(rpi.get_pCP_display_max_brightness())
- 
+            local maxBrightness = local_tonumber(rpi.get_pCP_display_max_brightness())
+            log:debug("adjustDisplayBrightness: maxBrightness=", maxBrightness)
+
             local popup = Popup("black_popup")
 
             popup:setAllowScreensaver(false)
@@ -524,7 +535,7 @@ function adjustDisplayBrightness(self, menuItem)
             popup:setTransparent(false)
 
             popup:ignoreAllInputExcept({"back", "go_home", "scanner_rew", "volume_up", "volume_down", "play_preset_1", "play_preset_2", "play_preset_3", "play_preset_4", "play_preset_5", "play_preset_6", "play_preset_7", "play_preset_8", "play_preset_9", "play_preset_0"})
-            
+
             local cancelBrightnessAction = function()
                 -- read current brightness value from and save settings to settings\piCorePlayer.lua
                 self:getSettings()["pcp_rpi_display_brightness"] = currentBrightness
@@ -536,7 +547,7 @@ function adjustDisplayBrightness(self, menuItem)
             popup:addActionListener("back", self, cancelBrightnessAction)
             popup:addActionListener("go_home", self, cancelBrightnessAction)
             popup:addActionListener("scanner_rew", self, cancelBrightnessAction)
-            
+
             --use of a generic lcdscript script file if official 7" display is not present
             local help
             local labelText
@@ -609,7 +620,7 @@ function adjustDisplayBrightness(self, menuItem)
             popup:addListener(EVENT_MOUSE_PRESS,
                 function(event)
                     -- read current brightness value from /sys/class/backlight/rpi_backlight/brightness and save settings to settings\piCorePlayer.lua
-                    self:getSettings()["pcp_rpi_display_brightness"] = tonumber(rpi.get_pCP_display_current_brightness())
+                    self:getSettings()["pcp_rpi_display_brightness"] = local_tonumber(rpi.get_pCP_display_current_brightness())
                     self:storeSettings()
                     popup:hide()
                     return EVENT_CONSUME
@@ -631,6 +642,7 @@ function adjustDisplayBrightness(self, menuItem)
     else
         self:showPopupMessage(tostring(self:string("LABEL_ERROR_NO_PICOREPLAYER_VERSION_FOUND")), 2500)
     end
+    log:debug("adjustDisplayBrightness END")
 end
 
 function rebootPi(self, menuItem)
@@ -873,8 +885,10 @@ function showPopupMessage(self, message, duration)
 end
 
 function getpCPVersion()
+    log:debug("getpCPVersion")
     local fh, err = io.open(pCP_version_file_location,"r")
     if err then
+        log:debug("getpCPVersion: failed to open ", pCP_version_file_location)
         return nil
     end
     local pcpv = fh:read("*all")
@@ -882,8 +896,10 @@ function getpCPVersion()
 
     if string.find(pcpv, "%d+%.%d+") ~= nil then
         pcpv = string.sub(pcpv, string.find(pcpv, "%d+%.%d+"))
+        log:debug("getpCPVersion: find: got ", pcpv)
     else
-        return nil
+        log:debug("getpCPVersion: find: got nil")
+        pcpv = nil
     end
     return pcpv
 end
