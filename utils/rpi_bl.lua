@@ -35,10 +35,10 @@ function PiDisplay()
             pidisplay = "lcd"
         end
 
-        log:info("Setting touchscreen to: " .. pidisplay)
+        log:info("Touch screen is set to ", pidisplay)
         initialised = true
     end
-    log:info("display is : " .. pidisplay)
+    log:info("display is :", pidisplay)
     return pidisplay
 end
 
@@ -99,7 +99,7 @@ function get_pCP_display_current_brightness()
     elseif PiDisplay() == "lcd" then
         return _read_capture(pCP_lcdscript .. " C")
     end
-end 
+end
 
 function get_pCP_display_max_brightness()
     if PiDisplay() == "pitouch" then
@@ -122,10 +122,20 @@ end
 
 function _file_exists(name)
    local f=io.open(name,"r")
-   if io.type(f) == nil then return false end
-   if io.type(f) == "file" then io.close(f) return true end
-   -- for completeness --
-   if io.type(f) == "closed file" then return true end
+   if io.type(f) == nil then
+        return false
+    end
+    if io.type(f) == "file" then
+        io.close(f)
+        return true
+    end
+    -- for completeness --
+    if io.type(f) == "closed file" then
+        return true
+    else
+        log:warn("unknown file type ", io.type(f))
+    end
+    return false
 end
 
 function _write(file, val)
