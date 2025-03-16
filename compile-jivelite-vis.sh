@@ -34,6 +34,9 @@ esac
 	rm -rf jivelite
 	git clone https://github.com/blaisedias/jivelite.git -b $opt
 	cd jivelite
+    tar cf /tmp/v.tar assets/visualisers/vumeters/Logitech* assets/visualisers/vumeters/Jstraw* assets/visualisers/vumeters/Chevron*
+    rm -rf  assets/visualisers/vumeters/*
+    tar xf /tmp/v.tar
 	git submodule update --init --recursive
 	cd lib-src
 	git clone https://github.com/ralph-irving/lirc-bsp
