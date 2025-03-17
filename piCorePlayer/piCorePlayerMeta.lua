@@ -17,6 +17,7 @@ function registerApplet(self)
     self:registerService('getBacklightBrightnessWhenOn')
     self:registerService('getBacklightBrightnessWhenOff')
     self:registerService('getEnablePowerOnButtonWhenOff')
+    self:registerService('updatePersistentStore')
 end
 
 function defaultSettings(self)

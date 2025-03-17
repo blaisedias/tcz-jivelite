@@ -167,6 +167,10 @@ function getEnablePowerOnButtonWhenOff(self)
     return self:getSettings()["pcp_enable_power_on_button_when_off"]
 end
 
+function updatePersistentStore(self)
+    return self:saveToSDCard(self)
+end
+
 function menuWOL(self, menuItem)
     if getpCPVersion() ~= nil then
         local window = Window("text_list", self:string("WOL_MENU_TITLE"))
