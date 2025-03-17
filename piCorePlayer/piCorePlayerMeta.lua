@@ -1,7 +1,8 @@
-local io                    = require("io")
+--local io                    = require("io")
 local oo                    = require("loop.simple")
 local AppletMeta            = require("jive.AppletMeta")
-local appletManager         = appletManager
+--local appletManager         = appletManager
+local log                   = require("jive.utils.log").logger("applet.piCorePlayer")
 local jiveMain              = jiveMain
 local rpi                   = require("jive.utils.rpi_bl")
 
@@ -53,26 +54,26 @@ function configureApplet(self)
 
 	if self:getSettings()['pcp_rpi_display_brightness'] then
 		local stored_brightness = self:getSettings()['pcp_rpi_display_brightness']
-		log:debug("Stored Brightness = " .. stored_brightness)
+		log:debug("Stored Brightness = ",  stored_brightness)
 
 		if rpi.PiDisplay() == "pitouch" then
 			rpi.set_pCP_display_current_brightness(stored_brightness)
 		elseif rpi.PiDisplay == "lcd" then
 			-- set brightness range
 			local retval = rpi.run_lcd_script_command("R")
-			log:debug("Result of setting brightness range: " .. retval)
+			log:debug("Result of setting brightness range: ", retval)
 			-- set brightness to stored value.  This is required not only to ensure correct brightness on reboot
 			-- but also to put GPIO 13 into PWM mode, so that 'pigs GDC g' will work
 			retval = rpi.run_lcd_script_command(stored_brightness)
-			log:debug("Result of setting brightness value: " .. retval)
+			log:debug("Result of setting brightness value: ", retval)
 		end
 	else
 		log:debug("Brightness setting doesn't exist")
 		-- set brightness range
 		local retval = rpi.run_lcd_script_command("R")
-		log:debug("Result of setting brightness range: " .. retval)
+		log:debug("Result of setting brightness range: ", retval)
 		-- set to full brightness.  This is required to put GPIO 13 into PWM mode, so that 'pigs GDC g' will work
 		retval = rpi.run_lcd_script_command("F")
-		log:debug("Result of setting brightness value: " .. retval)
+		log:debug("Result of setting brightness value: ", retval)
 	end
 end
