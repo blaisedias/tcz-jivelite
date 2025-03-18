@@ -146,8 +146,29 @@ function menu(self, menuItem)
 
     menu:addItem({ text = self:string("MENU_SAVE_SETTINGS"),
             callback = function(event, menuItem)
-                self:saveToSDCard(menuItem)
+                self:saveToSDCard()
             end })
+
+    is_checked = self:getSettings()["pcp_enable_update_persistent_store"]
+    if is_checked == nil then
+        is_checked = false
+        self:getSettings()["pcp_enable_update_persistent_store"] = is_checked
+        self:storeSettings()
+    end
+
+    menu:addItem({ text = self:string("MENU_ENABLE_UPDATE_PERSISTENT_STORE"),
+            style = "item_choice",
+            check = Checkbox(
+                "checkbox",
+                function(object, isSelected)
+                    self:getSettings()["pcp_enable_update_persistent_store"] = isSelected
+                    self:storeSettings()
+                    self:saveToSDCard()
+                end,
+                is_checked
+                )
+            })
+
 
     window:addWidget(menu)
 
@@ -168,7 +189,9 @@ function getEnablePowerOnButtonWhenOff(self)
 end
 
 function updatePersistentStore(self)
-    return self:saveToSDCard(self)
+    if self:getSettings()["pcp_enable_update_persistent_store"] then
+        return self:saveToSDCard()
+    end
 end
 
 function menuWOL(self, menuItem)
@@ -826,7 +849,7 @@ function rescanLMSMediaLibrary(self, menuItem)
     end
 end
 
-function saveToSDCard(self, menuItem)
+function saveToSDCard(self)
     local pcpVersion = tonumber(getpCPVersion())
 
     if pcpVersion ~= nil then

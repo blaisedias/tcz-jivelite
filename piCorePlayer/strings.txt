@@ -284,3 +284,6 @@ LABEL_WOL_PCP_CONFIG_SAVE_ERROR
 	DE	Wake-on-LAN Einstellungen konnten nicht aktualisiert werden (bitte config.cfg überprüfen)!
 	EN	WOL settings could not be updated (please check config.cfg)!
 	NL	WOL instellingen konden niet worden bijgewerkt (controleer config.cfg)!
+
+MENU_ENABLE_UPDATE_PERSISTENT_STORE
+	EN	Save to SD card when settings are changed
