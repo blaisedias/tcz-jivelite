@@ -44,7 +44,7 @@ local Choice            = require("jive.ui.Choice")
 local Textinput         = require("jive.ui.Textinput")
 local Keyboard          = require("jive.ui.Keyboard")
 local rpi               = require("jive.utils.rpi_bl")
-
+local System            = require("jive.System")
 local debug             = require("jive.utils.debug")
 
 local Applet            = require("jive.Applet")
@@ -190,7 +190,16 @@ end
 
 function updatePersistentStore(self)
     if self:getSettings()["pcp_enable_update_persistent_store"] then
-        return self:saveToSDCard()
+        local pcpVersion = tonumber(getpCPVersion())
+        if pcpVersion >= 3.20 then
+            System:backgroundExec(pCP_3_2_save_cmd)
+        elseif pcpVersion >= 2.00 then
+            System:backgroundExec(pCP_2_0_save_cmd)
+        elseif pcpVersion >= 1.22 then
+            System:backgroundExec(pCP_1_22_save_cmd)
+        else
+            System:backgroundExec(pCP_default_save_cmd)
+        end
     end
 end
 
