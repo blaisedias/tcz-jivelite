@@ -34,9 +34,15 @@ esac
 	rm -rf jivelite
 	git clone https://github.com/blaisedias/jivelite.git -b $opt
 	cd jivelite
-    tar cf /tmp/v.tar assets/visualisers/vumeters/Logitech* assets/visualisers/vumeters/Jstraw* assets/visualisers/vumeters/Chevron*
-    rm -rf  assets/visualisers/vumeters/*
-    tar xf /tmp/v.tar
+
+	### { Prune the set of visualiser resources to a minimum
+	# Chevron Cyan Orange digital VU Meter, 
+	tar cf /tmp/v.tar "assets/visualisers/vumeters/Chevrons Cyan Orange" assets/visualisers/spectrum/colours.json
+	rm -rf  assets/visualisers/vumeters/*
+	rm -rf  assets/visualisers/spectrum/*
+	tar xf /tmp/v.tar
+	### }
+
 	git submodule update --init --recursive
 	cd lib-src
 	git clone https://github.com/ralph-irving/lirc-bsp
