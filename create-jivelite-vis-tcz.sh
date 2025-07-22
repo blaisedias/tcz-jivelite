@@ -195,6 +195,8 @@ md5sum `basename $LUATCZ` > $LUATCZ.md5.txt
 cd $LUAOUTPUT >> $LOG
 find * -not -type d > $OUTPUT/../${LUATCZ}.list
  
+piCoreVer=$(cat /etc/os-release  | grep CPE_NAME | sed -e "s#^.*:##" | sed 's#"$##')
+
 cd $OUTPUT/../
 echo -e "Title:\t\t$LUATCZ" > $LUATCZINFO
 echo -e "Description:\tLua a powerful, efficient, lightweight, embeddable scripting language." >> $LUATCZINFO
@@ -205,7 +207,7 @@ echo -e "Original-site:\thttp://www.lua.org/" >> $LUATCZINFO
 echo -e "Copying-policy:\tMIT http://www.lua.org/license.html" >> $LUATCZINFO
 echo -e "Size:\t\t$(ls -lk $LUATCZ | awk '{print $5}')" >> $LUATCZINFO
 echo -e "Extension_by:\tpiCorePlayer team: http://www.picoreplayer.org/" >> $LUATCZINFO
-echo -e "\t\tCompiled for piCore 14.x" >> $LUATCZINFO
+echo -e "\t\tCompiled for piCore $piCoreVer" >> $LUATCZINFO
 
 ./split-jivelite-vis-tcz.sh
 
@@ -218,7 +220,7 @@ echo -e "Original-site:\t$(grep url $SRC/.git/config | awk '{print $3}')" >> $TC
 echo -e "Copying-policy:\tGPLv3" >> $TCZINFO
 echo -e "Size:\t\t$(ls -lk pcp-${JIVELITE}-vis.tcz | awk '{print $5}')" >> $TCZINFO
 echo -e "Extension_by:\tpiCorePlayer team: http://www.picoreplayer.org/" >> $TCZINFO
-echo -e "\t\tCompiled for piCore 14.x" >> $TCZINFO
+echo -e "\t\tCompiled for piCore $piCoreVer" >> $TCZINFO
 
 
 #./create-vumeters-tcz.sh
