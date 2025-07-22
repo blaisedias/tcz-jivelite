@@ -214,7 +214,7 @@ echo -e "Title:\t\tpcp-${JIVELITE}-vis.tcz" > $TCZINFO
 echo -e "Description:\tCommunity squeezebox controller." >> $TCZINFO
 echo -e "Version:\t$(awk -F\" '{printf "%s", $2}' jivelite/src/version.h)" >> $TCZINFO
 echo -e "Commit:\t\t$(cd $SRC; git show | grep commit | awk '{print $2}')" >> $TCZINFO
-echo -e "Authors:\tAdrian Smith, Ralph Irving, Michael Herger" >> $TCZINFO
+echo -e "Authors:\tAdrian Smith, Ralph Irving, Michael Herger, Blaise Dias" >> $TCZINFO
 echo -e "Original-site:\t$(grep url $SRC/.git/config | awk '{print $3}')" >> $TCZINFO
 echo -e "Copying-policy:\tGPLv3" >> $TCZINFO
 echo -e "Size:\t\t$(ls -lk pcp-${JIVELITE}-vis.tcz | awk '{print $5}')" >> $TCZINFO
