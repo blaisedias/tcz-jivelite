@@ -144,7 +144,6 @@ chmod 755 $OUTPUT/opt/jivelite/bin/jivelite.sh
 
     cp -p $OUTPUT/../pcp-jivelite-info.sh $OUTPUT/opt/jivelite/bin/
     chmod 755 $OUTPUT/opt/jivelite/bin/pcp-jivelite-info.sh
-    cp -p $OUTPUT/../example-jivelite-custom.sh $OUTPUT/opt/jivelite
 
 
 # Allow removal of Quit from home menu
