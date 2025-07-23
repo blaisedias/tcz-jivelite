@@ -9,6 +9,7 @@ rm -f pcp-lua.tcz
 rm -rf lua-build/
 rm -f jivelite_touch.tcz.md5.txt
 rm -f config.log
+rm -f build.txt
 rm -f pcp-jivelite.tcz
 rm -f pcp-jivelite.tcz.md5.txt
 rm -f pcp-jivelite.tcz.list

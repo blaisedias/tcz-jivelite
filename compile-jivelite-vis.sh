@@ -33,7 +33,22 @@ esac
     echo "########### compiling for $opt ############"
 	rm -rf jivelite
 	git clone https://github.com/blaisedias/jivelite.git -b $opt
+    date -R > "${BUILD_TXT}"
+    echo "tcz_jivelite:" >> "${BUILD_TXT}"
+    x_remote=$(git remote  -v | grep fetch | sed -e 's#^origin\t##' -e 's# .*##')
+    x_branch=$(git branch --show-current)
+    echo "    git repository=${x_remote} branch=${x_branch}" >> "${BUILD_TXT}"
 	cd jivelite
+    echo "jivelite:" >> "${BUILD_TXT}"
+    x_remote=$(git remote  -v | grep fetch | sed -e 's#^origin\t##' -e 's# .*##')
+    x_branch=$(git branch --show-current)
+    echo "    git repository=${x_remote} branch=${x_branch}" >> "${BUILD_TXT}"
+    tmp=$(git rev-parse HEAD)
+    echo "    git rev-parse HEAD=${tmp}" >> "${BUILD_TXT}"
+    tmp=$(git rev-parse HEAD:share/jive)
+    echo "    git rev-parse HEAD:share/jive=${tmp}" >> "${BUILD_TXT}"
+    tmp=$(git rev-parse HEAD:src)
+    echo "    git rev-parse HEAD:src=${tmp}" >> "${BUILD_TXT}"
 
 	### { Prune the set of visualiser resources to a minimum
 	# Chevron Cyan Orange digital VU Meter, 
@@ -48,17 +63,6 @@ esac
 	git clone https://github.com/ralph-irving/lirc-bsp
 	cd ../
 	patch -p1 -i../vis-jivelite-picoplayer-$CPU.patch || exit 1
-    date -R > ./build.txt
-    echo "git remote -v" >> ./build.txt
-    git remote -v >> ./build.txt
-    echo "git rev-parse HEAD" >> ./build.txt
-    git rev-parse HEAD >> ./build.txt
-    echo "git rev-parse HEAD:share/jive" >> ./build.txt
-    git rev-parse HEAD:share/jive >> ./build.txt
-    echo "git rev-parse HEAD:src" >> ./build.txt
-    git rev-parse HEAD:src >> ./build.txt
-    echo "git rev-parse HEAD:assets" >> ./build.txt
-    git rev-parse HEAD:assets >> ./build.txt
 #fi
 
 # Set jivelite version to 8.0.0 to indicate slimdevices player lua applet compatibility.

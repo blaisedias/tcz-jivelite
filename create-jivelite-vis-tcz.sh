@@ -19,6 +19,7 @@ TCZINFO="pcp-${JIVELITE}-vis.tcz.info"
 LUATCZ="pcp-lua.tcz"
 LUATCZINFO="${LUATCZ}.info"
 ARCH=$(uname -m)
+export BUILD_TXT=$PWD/build.txt
 
 # Build requires these extensions
 tce-load -il compiletc squashfs-tools git libasound-dev patchelf pcp-squeezeplay pcp-squeezeplay-dev pcp-lirc-dev pcp-lirc
@@ -54,26 +55,15 @@ fi
 echo "Installing in $OUTPUT..."
 cd $SRC
 mkdir -p $OUTPUT/opt/jivelite/bin
+cp ${BUILD_TXT} $OUTPUT/opt/jivelite/build.txt
+echo "------------"
+cat $OUTPUT/opt/jivelite/build.txt
+echo "------------"
 cp -p bin/jivelite $OUTPUT/opt/jivelite/bin
 mkdir -p $OUTPUT/opt/jivelite/lib
 cp -pr lib $OUTPUT/opt/jivelite
 cp -pr share $OUTPUT/opt/jivelite
-
-    cp -pr assets $OUTPUT/opt/jivelite
-    date -R > $OUTPUT/opt/jivelite/build.txt
-    echo "git remote -v" >> $OUTPUT/opt/jivelite/build.txt
-    git remote -v >> $OUTPUT/opt/jivelite/build.txt
-    echo "git branch --show-current" >> $OUTPUT/opt/jivelite/build.txt
-    git branch --show-current >> $OUTPUT/opt/jivelite/build.txt
-    echo "git rev-parse HEAD" >> $OUTPUT/opt/jivelite/build.txt
-    git rev-parse HEAD >> $OUTPUT/opt/jivelite/build.txt
-    echo "git rev-parse HEAD:share/jive" >> $OUTPUT/opt/jivelite/build.txt
-    git rev-parse HEAD:share/jive >> $OUTPUT/opt/jivelite/build.txt
-    echo "git rev-parse HEAD:src" >> $OUTPUT/opt/jivelite/build.txt
-    git rev-parse HEAD:src >> $OUTPUT/opt/jivelite/build.txt
-    echo "git rev-parse HEAD:assets" >> $OUTPUT/opt/jivelite/build.txt
-    git rev-parse HEAD:assets >> $OUTPUT/opt/jivelite/build.txt
-    cat $OUTPUT/opt/jivelite/build.txt
+cp -pr assets $OUTPUT/opt/jivelite
 
 
 cd /tmp/tcloop/pcp-squeezeplay/opt/squeezeplay/lib
