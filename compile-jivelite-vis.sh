@@ -50,6 +50,8 @@ esac
     tmp=$(git rev-parse HEAD:src)
     echo "    git rev-parse HEAD:src=${tmp}" >> "${BUILD_TXT}"
 
+	git submodule update --init --recursive
+
 	### { Prune the set of visualiser resources to a minimum
 	# Chevron Cyan Orange digital VU Meter, 
 	tar cf /tmp/v.tar "assets/visualisers/vumeters/Chevrons Cyan Orange" assets/visualisers/spectrum/colours.json
@@ -58,7 +60,6 @@ esac
 	tar xf /tmp/v.tar
 	### }
 
-	git submodule update --init --recursive
 	cd lib-src
 	git clone https://github.com/ralph-irving/lirc-bsp
 	cd ../
