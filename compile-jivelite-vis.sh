@@ -55,8 +55,18 @@ esac
 	### { Prune the set of visualiser resources to a minimum
 	# Chevron Cyan Orange digital VU Meter, 
 	tar cf /tmp/v.tar "assets/visualisers/vumeters/Chevrons Cyan Orange" assets/visualisers/spectrum/colours.json
-	rm -rf  assets/visualisers/vumeters/*
-	rm -rf  assets/visualisers/spectrum/*
+
+# vis -release 1    
+#	rm -rf  assets/visualisers/vumeters/*
+#	rm -rf  assets/visualisers/spectrum/*
+	
+# vis -release 2
+	rm assets/visualisers
+	rm -rf  assets/tcz-jivelite-visualisers
+	mkdir -p assets/visualisers
+	mkdir -p assets/visualisers/vumeters
+	mkdir -p assets/visualisers/spectrum
+
 	tar xf /tmp/v.tar
 	### }
 
