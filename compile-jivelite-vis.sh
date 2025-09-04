@@ -37,12 +37,22 @@ esac
     echo "tcz_jivelite:" >> "${BUILD_TXT}"
     x_remote=$(git remote  -v | grep fetch | sed -e 's#^origin\t##' -e 's# .*##')
     x_branch=$(git branch --show-current)
+    tmp=$(git tag --points-at HEAD)
+    if [ "$tmp" != "" ] ; then
+        echo "    tags=$tmp" >> "${BUILD_TXT}"
+    fi
+    tmp=$(git rev-parse HEAD)
+    echo "    git rev-parse HEAD=${tmp}" >> "${BUILD_TXT}"
     echo "    git repository=${x_remote} branch=${x_branch}" >> "${BUILD_TXT}"
 	cd jivelite
     echo "jivelite:" >> "${BUILD_TXT}"
     x_remote=$(git remote  -v | grep fetch | sed -e 's#^origin\t##' -e 's# .*##')
     x_branch=$(git branch --show-current)
     echo "    git repository=${x_remote} branch=${x_branch}" >> "${BUILD_TXT}"
+    tmp=$(git tag --points-at HEAD)
+    if [ "$tmp" != "" ] ; then
+        echo "    tags=$tmp" >> "${BUILD_TXT}"
+    fi
     tmp=$(git rev-parse HEAD)
     echo "    git rev-parse HEAD=${tmp}" >> "${BUILD_TXT}"
     tmp=$(git rev-parse HEAD:share/jive)
@@ -75,10 +85,15 @@ esac
 	cd ../
 	patch -p1 -i../vis-jivelite-picoplayer-$CPU.patch || exit 1
 #fi
+jivelite_binary_version=$(git tag --points-at HEAD)
+if [ "$jivelite_binary_version" == "" ] ; then
+    tmp=$(git rev-list HEAD --count)
+    jivelite_binary_version="-r${tmp}"
+fi
 
 # Set jivelite version to 8.0.0 to indicate slimdevices player lua applet compatibility.
 #echo "#define JIVE_VERSION \"8.0.0-r$(git rev-list HEAD --count)\"" > src/version.h
-echo "#define JIVE_VERSION \"8.0.0-$opt-r$(git rev-list HEAD --count)\"" > src/version.h
+echo "#define JIVE_VERSION \"8.0.0-$opt-${jivelite_binary_version}\"" > src/version.h
 #echo "#define SRC_GIT_REMOTE \"$(git remote -v | grep fetch)\"" > src/long_version.h
 #echo "#define SRC_GIT_BRANCH \"$(git branch --show-current)\"" >> src/long_version.h
 #echo "#define SRC_GIT_HEAD_REV \"$(git rev-parse HEAD)\"" >> src/long_version.h
