@@ -1,5 +1,5 @@
 diff --git share/jive/applets/ScreenSavers/ScreenSaversApplet.lua share/jive/applets/ScreenSavers/ScreenSaversApplet.lua
-index bc86281..76c1697 100644
+index a538cf6..6b14488 100644
 --- share/jive/applets/ScreenSavers/ScreenSaversApplet.lua
 +++ share/jive/applets/ScreenSavers/ScreenSaversApplet.lua
 @@ -21,6 +21,10 @@ ScreenSaversApplet overrides the following methods:
@@ -13,7 +13,7 @@ index bc86281..76c1697 100644
  local os               = require("os")
  local oo               = require("loop.simple")
  
-@@ -234,15 +237,17 @@ function _activate(self, the_screensaver, force, isServerRequest)
+@@ -237,15 +241,17 @@ function _activate(self, the_screensaver, force, isServerRequest)
  	end
  	local screensaver = self.screensavers[self.currentSS]
  
@@ -35,7 +35,7 @@ index bc86281..76c1697 100644
  
  	-- check if the top window will allow screensavers, if not then
  	-- set the screensaver to activate 10 seconds after the window
-@@ -557,25 +562,32 @@ function screensaverWindow(self, window, scrollAllowed, ssAllowedActions, mouseA
+@@ -561,25 +567,32 @@ function screensaverWindow(self, window, scrollAllowed, ssAllowedActions, mouseA
  				   return EVENT_UNUSED
  			   end)
  
@@ -83,7 +83,7 @@ index bc86281..76c1697 100644
  
  	log:debug("Overriding the default window action 'bump' handling to allow action to fall through to framework listeners")
  	window:removeDefaultActionListeners()
-@@ -817,8 +829,10 @@ function openSettings(self, menuItem)
+@@ -864,8 +877,10 @@ function openSettings(self, menuItem)
  			},
  		})
  
@@ -95,20 +95,20 @@ index bc86281..76c1697 100644
  		menu:addItem(
  			{
  				text = self:string("SCREENSAVER_WHEN_OFF"),
-@@ -830,6 +844,7 @@ function openSettings(self, menuItem)
+@@ -877,6 +892,7 @@ function openSettings(self, menuItem)
  			}
  		)
  	end
 +---------------------------------------------------------------------
- 	
+ 
  	menu:setComparator(menu.itemComparatorWeightAlpha)
  	for setting_name, screensaver in pairs(self.screensaverSettings) do
-@@ -859,7 +874,17 @@ function openSettings(self, menuItem)
+@@ -906,7 +922,17 @@ function openSettings(self, menuItem)
  	return window
  end
  
 -
-+---------------------------------------------------------------------
++--------------------------------------------------------------------
 +function _read(file)
 +	local fh, err = io.open(file, "r")
 +	if err then
