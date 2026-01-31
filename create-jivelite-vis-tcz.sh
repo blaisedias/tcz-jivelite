@@ -80,14 +80,14 @@ cp -p $OUTPUT/../$SRC/lua-5.1.5/src/liblua.so $OUTPUT/opt/jivelite/lib
 
 # Remove user contributed VU Meters, they are installed as tcz packages
 cd $OUTPUT/opt/jivelite || exit 1
-rm share/jive/applets/WQVGAsmallSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_d.png
-rm share/jive/applets/WQVGAsmallSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_e.png
-rm share/jive/applets/WQVGAsmallSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_j.png
-rm share/jive/applets/JogglerSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_b.png
-rm share/jive/applets/JogglerSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_w.png
-rm share/jive/applets/JogglerSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_d.png
-rm share/jive/applets/JogglerSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_e.png
-rm share/jive/applets/JogglerSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_j.png
+#rm share/jive/applets/WQVGAsmallSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_d.png
+#rm share/jive/applets/WQVGAsmallSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_e.png
+#rm share/jive/applets/WQVGAsmallSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_j.png
+#rm share/jive/applets/JogglerSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_b.png
+#rm share/jive/applets/JogglerSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_w.png
+#rm share/jive/applets/JogglerSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_d.png
+#rm share/jive/applets/JogglerSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_e.png
+#rm share/jive/applets/JogglerSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_j.png
 
 # Replace jivelite splash screen
 cp -p $OUTPUT/../pcp.png share/jive/jive/splash.png
@@ -215,15 +215,15 @@ echo -e "\t\tCompiled for piCore $piCoreVer" >> $TCZINFO
 #./create-vumeters-tcz.sh
 
 
-cp -p $TCZINFO pcp-jivelite-vis_hdskins.tcz.info
-sed -i "s#pcp-${JIVELITE}-vis.tcz#pcp-jivelite-vis_hdskins.tcz#" pcp-jivelite-vis_hdskins.tcz.info
-sed -i -e '/^Size:*/d' pcp-jivelite-vis_hdskins.tcz.info
-cp -p $TCZINFO pcp-jivelite-vis_qvgaskins.tcz.info
-sed -i "s#pcp-${JIVELITE}-vis.tcz#pcp-jivelite-vis_qvgaskins.tcz#" pcp-jivelite-vis_qvgaskins.tcz.info
-sed -i -e '/^Size:*/d' pcp-jivelite-vis_qvgaskins.tcz.info
-cp -p $TCZINFO pcp-jivelite-vis_wqvgaskins.tcz.info
-sed -i "s#pcp-${JIVELITE}-vis.tcz#pcp-jivelite-vis_wqvgaskins.tcz#" pcp-jivelite-vis_wqvgaskins.tcz.info
-sed -i -e '/^Size:*/d' pcp-jivelite-vis_wqvgaskins.tcz.info
+#cp -p $TCZINFO pcp-jivelite-vis_hdskins.tcz.info
+#sed -i "s#pcp-${JIVELITE}-vis.tcz#pcp-jivelite-vis_hdskins.tcz#" pcp-jivelite-vis_hdskins.tcz.info
+#sed -i -e '/^Size:*/d' pcp-jivelite-vis_hdskins.tcz.info
+#cp -p $TCZINFO pcp-jivelite-vis_qvgaskins.tcz.info
+#sed -i "s#pcp-${JIVELITE}-vis.tcz#pcp-jivelite-vis_qvgaskins.tcz#" pcp-jivelite-vis_qvgaskins.tcz.info
+#sed -i -e '/^Size:*/d' pcp-jivelite-vis_qvgaskins.tcz.info
+#cp -p $TCZINFO pcp-jivelite-vis_wqvgaskins.tcz.info
+#sed -i "s#pcp-${JIVELITE}-vis.tcz#pcp-jivelite-vis_wqvgaskins.tcz#" pcp-jivelite-vis_wqvgaskins.tcz.info
+#sed -i -e '/^Size:*/d' pcp-jivelite-vis_wqvgaskins.tcz.info
 
 
 #./create-vumeters-alex-tcz.sh
