@@ -110,7 +110,7 @@ local timerOn = Timer(600,
         if rpi.PiDisplay() == "pitouch" then
             rpi.set_backlight_power(on)
         elseif rpi.PiDisplay() == "lcd" then
-            log:debug("brightness to restore: " .. current_brightness)
+            log:debug("brightness to restore: ", current_brightness)
             rpi.set_lcd_current_brightness( current_brightness )
         end
     end,
@@ -136,7 +136,7 @@ function _screen(self, state)
             rpi.set_backlight_power(off)
         elseif rpi.PiDisplay() == "lcd" then
             current_brightness = rpi.get_lcd_current_brightness()
-            log:debug("Brightness = " .. current_brightness)
+            log:debug("Brightness = ", current_brightness)
             rpi.set_lcd_current_brightness( "0")
         end
         timerOff:start()

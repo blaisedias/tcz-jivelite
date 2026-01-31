@@ -25,9 +25,9 @@ function PiDisplay()
         brightness = backlightpath .. "/brightness"
         max_brightness = backlightpath .. "/max_brightness"
         bl_power = backlightpath .. "/bl_power"
-        log:debug("brightness: " .. brightness)
-        log:debug("maxbrightness: " .. max_brightness)
-        log:debug("power: " .. bl_power)
+        log:debug("brightness: ", brightness)
+        log:debug("maxbrightness: ", max_brightness)
+        log:debug("power: ", bl_power)
 
         if _file_exists(brightness) then
             pidisplay = "pitouch"
@@ -45,15 +45,15 @@ end
 function set_backlight_power(power)
     local on = "0"
     local off = "1"
-    log:debug("Turning Display: " .. power)
+    log:debug("Turning Display: " , power)
     if PiDisplay() == "pitouch" then
         if power == on then
-            log:debug("0-bl_power: " .. _read(bl_power)) 
+            log:debug("0-bl_power: ", _read(bl_power)) 
             if tonumber(_read(bl_power)) == tonumber(off) then
                 _write(bl_power, power)
             end
         elseif power == off then
-            log:debug("1-bl_power: " .. _read(bl_power)) 
+            log:debug("1-bl_power: ", _read(bl_power)) 
             if tonumber(_read(bl_power)) == tonumber(on) then
                 _write(bl_power, power)
             end
@@ -81,7 +81,7 @@ function set_lcd_current_brightness(br)
 end
         
 function set_pCP_display_current_brightness( BlBr )
-    log:debug("Setting " .. PiDisplay() .. " brightness: " .. BlBr)
+    log:debug("Setting ", PiDisplay(), " brightness: ", BlBr)
     --RPi 7" Touchscreen
     if PiDisplay() == "pitouch" then
         _write(brightness, BlBr)
@@ -113,7 +113,7 @@ function isTouch()
     if touchChecked == false then
         local cmd = "udevadm info --export-db | grep ID_INPUT_TOUCHSCREEN"
         local ret = _read_capture(cmd)
-        log:debug("udev found: " .. ret)
+        log:debug("udev found: ", ret)
         touchChecked = true
         hasTouch = ret
     end
