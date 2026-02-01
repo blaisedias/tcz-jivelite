@@ -39,14 +39,14 @@ function getPersisentStorageRoot(_)
 end
 --  } visImage interface
 
--- -- ========================
--- --  { Process interface
--- -- ======================
--- function getfd(_, fh)
---     log:debug("getfd: return fh:fileno() = ", fh:fileno())
---     return fh:fileno()
--- end
--- --  } Process interface
+-- ========================
+--  { Process interface
+-- ======================
+function getfd(_, fh)
+    log:debug("getfd: return fh:fileno() = ", fh:fileno())
+    return fh:fileno()
+end
+--  } Process interface
 
 -- ========================
 --  { System interface

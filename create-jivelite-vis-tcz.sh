@@ -116,8 +116,9 @@ find bin -type f -exec patchelf --set-rpath "/opt/jivelite/lib" {} \;
 find bin -type f -exec strip --strip-unneeded {} \;
 #find lib -type f -name '*so*' -exec strip --strip-unneeded {} \;
 
-# ffi not supported for standard lua
-patch -p0 -i$OUTPUT/../$SRC/scripts/remove-ffi.patch
+# not required ffi or not is now handled by the platform abstraction layer
+# # ffi not supported for standard lua
+# patch -p0 -i$OUTPUT/../$SRC/scripts/remove-ffi.patch
 
 # Install applet to enable turning the rpi backlight off
 cp -pr $OUTPUT/../DisplayOff $OUTPUT/opt/jivelite/share/jive/applets/
