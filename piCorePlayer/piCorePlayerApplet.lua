@@ -46,6 +46,7 @@ local Keyboard          = require("jive.ui.Keyboard")
 local rpi               = require("jive.utils.rpi_bl")
 local System            = require("jive.System")
 local debug             = require("jive.utils.debug")
+local platform          = require("jive.utils.platform")
 
 local Applet            = require("jive.Applet")
 
@@ -55,7 +56,7 @@ local log               = require("jive.utils.log").logger("applet.piCorePlayer"
 module(..., Framework.constants)
 oo.class(_M, Applet)
 
-local pCP_version_file_location = "/usr/local/etc/pcp/pcpversion.cfg"
+--local pCP_version_file_location = "/usr/local/etc/pcp/pcpversion.cfg"
 
 local pCP_list_network_interfaces_cmd = "ls -1 /sys/class/net/"
 
@@ -921,10 +922,10 @@ function showPopupMessage(self, message, duration)
 end
 
 function getpCPVersion()
-    log:debug("getpCPVersion")
-    local fh, err = io.open(pCP_version_file_location,"r")
+    log:debug("getpCPVersion", platform.pCP_version_file_location)
+    local fh, err = io.open(platform.pCP_version_file_location,"r")
     if err then
-        log:debug("getpCPVersion: failed to open ", pCP_version_file_location)
+        log:debug("getpCPVersion: failed to open ", platform.pCP_version_file_location)
         return nil
     end
     local pcpv = fh:read("*all")

@@ -80,22 +80,22 @@ cp -p $OUTPUT/../$SRC/lua-5.1.5/src/liblua.so $OUTPUT/opt/jivelite/lib
 
 # Remove user contributed VU Meters, they are installed as tcz packages
 cd $OUTPUT/opt/jivelite || exit 1
-rm share/jive/applets/WQVGAsmallSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_d.png
-rm share/jive/applets/WQVGAsmallSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_e.png
-rm share/jive/applets/WQVGAsmallSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_j.png
-rm share/jive/applets/JogglerSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_b.png
-rm share/jive/applets/JogglerSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_w.png
-rm share/jive/applets/JogglerSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_d.png
-rm share/jive/applets/JogglerSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_e.png
-rm share/jive/applets/JogglerSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_j.png
+#rm share/jive/applets/WQVGAsmallSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_d.png
+#rm share/jive/applets/WQVGAsmallSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_e.png
+#rm share/jive/applets/WQVGAsmallSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_j.png
+#rm share/jive/applets/JogglerSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_b.png
+#rm share/jive/applets/JogglerSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_w.png
+#rm share/jive/applets/JogglerSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_d.png
+#rm share/jive/applets/JogglerSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_e.png
+#rm share/jive/applets/JogglerSkin/images/UNOFFICIAL/VUMeter/vu_analog_25seq_j.png
 
 # Replace jivelite splash screen
 cp -p $OUTPUT/../pcp.png share/jive/jive/splash.png
 
 # Allow jivelite to receive power off notifications
-patch -p0 -i$OUTPUT/../pcp-JiveMain-GenericBrightness.patch || exit 1
-patch -p0 -i$OUTPUT/../pcp-ScreenSaversApplet-lua.patch || exit 1
-patch -p0 -i$OUTPUT/../pcp-System-lua.patch || exit 1
+# patch -p0 -i$OUTPUT/../pcp-JiveMain-GenericBrightness.patch || exit 1
+# patch -p0 -i$OUTPUT/../pcp-ScreenSaversApplet-lua.patch || exit 1
+# patch -p0 -i$OUTPUT/../pcp-System-lua.patch || exit 1
 
 # # Set JogglerSkin as the default.
 # patch -p0 -i$OUTPUT/../jivelite-defaultjogglerskin.patch || exit 1
@@ -116,8 +116,9 @@ find bin -type f -exec patchelf --set-rpath "/opt/jivelite/lib" {} \;
 find bin -type f -exec strip --strip-unneeded {} \;
 #find lib -type f -name '*so*' -exec strip --strip-unneeded {} \;
 
-# ffi not supported for standard lua
-patch -p0 -i$OUTPUT/../$SRC/scripts/remove-ffi.patch
+# not required ffi or not is now handled by the platform abstraction layer
+# # ffi not supported for standard lua
+# patch -p0 -i$OUTPUT/../$SRC/scripts/remove-ffi.patch
 
 # Install applet to enable turning the rpi backlight off
 cp -pr $OUTPUT/../DisplayOff $OUTPUT/opt/jivelite/share/jive/applets/
@@ -215,15 +216,15 @@ echo -e "\t\tCompiled for piCore $piCoreVer" >> $TCZINFO
 #./create-vumeters-tcz.sh
 
 
-cp -p $TCZINFO pcp-jivelite-vis_hdskins.tcz.info
-sed -i "s#pcp-${JIVELITE}-vis.tcz#pcp-jivelite-vis_hdskins.tcz#" pcp-jivelite-vis_hdskins.tcz.info
-sed -i -e '/^Size:*/d' pcp-jivelite-vis_hdskins.tcz.info
-cp -p $TCZINFO pcp-jivelite-vis_qvgaskins.tcz.info
-sed -i "s#pcp-${JIVELITE}-vis.tcz#pcp-jivelite-vis_qvgaskins.tcz#" pcp-jivelite-vis_qvgaskins.tcz.info
-sed -i -e '/^Size:*/d' pcp-jivelite-vis_qvgaskins.tcz.info
-cp -p $TCZINFO pcp-jivelite-vis_wqvgaskins.tcz.info
-sed -i "s#pcp-${JIVELITE}-vis.tcz#pcp-jivelite-vis_wqvgaskins.tcz#" pcp-jivelite-vis_wqvgaskins.tcz.info
-sed -i -e '/^Size:*/d' pcp-jivelite-vis_wqvgaskins.tcz.info
+#cp -p $TCZINFO pcp-jivelite-vis_hdskins.tcz.info
+#sed -i "s#pcp-${JIVELITE}-vis.tcz#pcp-jivelite-vis_hdskins.tcz#" pcp-jivelite-vis_hdskins.tcz.info
+#sed -i -e '/^Size:*/d' pcp-jivelite-vis_hdskins.tcz.info
+#cp -p $TCZINFO pcp-jivelite-vis_qvgaskins.tcz.info
+#sed -i "s#pcp-${JIVELITE}-vis.tcz#pcp-jivelite-vis_qvgaskins.tcz#" pcp-jivelite-vis_qvgaskins.tcz.info
+#sed -i -e '/^Size:*/d' pcp-jivelite-vis_qvgaskins.tcz.info
+#cp -p $TCZINFO pcp-jivelite-vis_wqvgaskins.tcz.info
+#sed -i "s#pcp-${JIVELITE}-vis.tcz#pcp-jivelite-vis_wqvgaskins.tcz#" pcp-jivelite-vis_wqvgaskins.tcz.info
+#sed -i -e '/^Size:*/d' pcp-jivelite-vis_wqvgaskins.tcz.info
 
 
 #./create-vumeters-alex-tcz.sh
