@@ -28,6 +28,7 @@ local loaded_rpi_bl, rpi = pcall(require, "jive.utils.rpi_bl")
 module(...)
 
 local version = 1.0
+pCP_version_file_location = "/usr/local/etc/pcp/pcpversion.cfg"
 
 -- ========================
 --  { visImage interface
