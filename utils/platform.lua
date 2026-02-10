@@ -33,7 +33,7 @@ pCP_version_file_location = "/usr/local/etc/pcp/pcpversion.cfg"
 -- ========================
 --  { visImage interface
 -- ======================
-function getPersisentStorageRoot(_)
+function getPersistentStorageRoot(_)
     local psr = io.popen('readlink /etc/sysconfig/tcedir'):read()
     log:debug("getPersisentStorageRoot: persistent storage root is ", psr)
     return psr
