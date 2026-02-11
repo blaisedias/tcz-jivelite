@@ -47,8 +47,7 @@ esac
 	cd jivelite
     echo "jivelite:" >> "${BUILD_TXT}"
     x_remote=$(git remote  -v | grep fetch | sed -e 's#^origin\t##' -e 's# .*##')
-    x_branch=$(git branch --show-current)
-    echo "    git repository=${x_remote} branch=${x_branch}" >> "${BUILD_TXT}"
+    echo "    git repository=${x_remote} branch=${jivelitebranch}" >> "${BUILD_TXT}"
     tmp=$(git tag --points-at HEAD)
     if [ "$tmp" != "" ] ; then
         echo "    tags=$tmp" >> "${BUILD_TXT}"
@@ -59,6 +58,10 @@ esac
     echo "    git rev-parse HEAD:share/jive=${tmp}" >> "${BUILD_TXT}"
     tmp=$(git rev-parse HEAD:src)
     echo "    git rev-parse HEAD:src=${tmp}" >> "${BUILD_TXT}"
+
+    unset tmp
+    unset x_remote
+    unset x_branch
 
 	git submodule update --init --recursive
 
