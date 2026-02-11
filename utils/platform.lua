@@ -149,3 +149,7 @@ function getVersion()
     log:debug("platform implementation version ", version)
     return version
 end
+
+function getPlatformName()
+    return "piCorePlayer"
+end
