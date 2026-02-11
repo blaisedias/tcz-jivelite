@@ -1,6 +1,6 @@
 #!/bin/bash
 
-opt=$1
+jivelitebranch=$1
 
 ARCH=$(uname -m)
 
@@ -30,9 +30,9 @@ esac
 #fi
 #
 #else
-    echo "########### compiling for $opt ############"
+    echo "########### compiling for $jivelitebranch ############"
 	rm -rf jivelite
-	git clone https://github.com/blaisedias/jivelite.git -b $opt
+	git clone https://github.com/blaisedias/jivelite.git -b $jivelitebranch
     date -R > "${BUILD_TXT}"
     echo "tcz_jivelite:" >> "${BUILD_TXT}"
     x_remote=$(git remote  -v | grep fetch | sed -e 's#^origin\t##' -e 's# .*##')
@@ -85,19 +85,16 @@ esac
 	cd ../
 	patch -p1 -i../vis-jivelite-picoplayer-$CPU.patch || exit 1
 #fi
-jivelite_binary_version=$(git tag --points-at HEAD)
-if [ "$jivelite_binary_version" == "" ] ; then
+# retrieve base version as delcared in src
+base_binary_version=$(cat src/version.h  | sed -e 's/^.* //' | sed -e 's#"##g#' | sed -e 's#-vis##')
+# retrieve tag - convention for tags is to include the branch if not built off master/main
+git_version=$(git tag --points-at HEAD)
+if [ "$git_version" == "" ] ; then
+    # tip is untagged add branch-commit 
     tmp=$(git rev-list HEAD --count)
-    jivelite_binary_version="${opt}-r${tmp}"
+    git_version="${jivelitebranch}-r${tmp}"
 fi
-
-# Set jivelite version to 8.0.0 to indicate slimdevices player lua applet compatibility.
-#echo "#define JIVE_VERSION \"8.0.0-r$(git rev-list HEAD --count)\"" > src/version.h
-echo "#define JIVE_VERSION \"8.0.0-${jivelite_binary_version}\"" > src/version.h
-#echo "#define SRC_GIT_REMOTE \"$(git remote -v | grep fetch)\"" > src/long_version.h
-#echo "#define SRC_GIT_BRANCH \"$(git branch --show-current)\"" >> src/long_version.h
-#echo "#define SRC_GIT_HEAD_REV \"$(git rev-parse HEAD)\"" >> src/long_version.h
-
+echo "#define JIVE_VERSION \"${base_binary_version}-${git_version}\"" > src/version.h
 make all || exit 2
 
 if [ ! -d lua-5.1.5 ]; then
