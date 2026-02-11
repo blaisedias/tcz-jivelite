@@ -95,6 +95,7 @@ if [ "$git_version" == "" ] ; then
     git_version="${jivelitebranch}-r${tmp}"
 fi
 echo "#define JIVE_VERSION \"${base_binary_version}-${git_version}\"" > src/version.h
+sed -i -e "s/^local\s*version\s*=.*/local version=\"${git_version}\"/" share/jive/jive/utils/version.lua
 make all || exit 2
 
 if [ ! -d lua-5.1.5 ]; then
