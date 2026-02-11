@@ -34,34 +34,40 @@ esac
 	rm -rf jivelite
 	git clone https://github.com/blaisedias/jivelite.git -b $jivelitebranch
     date -R > "${BUILD_TXT}"
+
     echo "tcz_jivelite:" >> "${BUILD_TXT}"
     x_remote=$(git remote  -v | grep fetch | sed -e 's#^origin\t##' -e 's# .*##')
     x_branch=$(git branch --show-current)
-    tmp=$(git tag --points-at HEAD)
-    if [ "$tmp" != "" ] ; then
-        echo "    tags=$tmp" >> "${BUILD_TXT}"
+    echo "    git repository=${x_remote} branch=${x_branch}" >> "${BUILD_TXT}"
+    unset x_remote
+    unset x_branch
+    tag=$(git tag --points-at HEAD)
+    if [ "$tag" != "" ] ; then
+        echo "    tags=$tag" >> "${BUILD_TXT}"
     fi
+    unset tag
     tmp=$(git rev-parse HEAD)
     echo "    git rev-parse HEAD=${tmp}" >> "${BUILD_TXT}"
-    echo "    git repository=${x_remote} branch=${x_branch}" >> "${BUILD_TXT}"
+    unset tmp
+
 	cd jivelite
     echo "jivelite:" >> "${BUILD_TXT}"
     x_remote=$(git remote  -v | grep fetch | sed -e 's#^origin\t##' -e 's# .*##')
-    echo "    git repository=${x_remote} branch=${jivelitebranch}" >> "${BUILD_TXT}"
-    tmp=$(git tag --points-at HEAD)
-    if [ "$tmp" != "" ] ; then
-        echo "    tags=$tmp" >> "${BUILD_TXT}"
+    tag=$(git tag --points-at HEAD)
+    if [ "$tag" != "" ] ; then
+    	echo "    git repository=${x_remote} tag=${tag}" >> "${BUILD_TXT}"
+    else
+    	echo "    git repository=${x_remote} branch=${jivelitebranch}" >> "${BUILD_TXT}"
     fi
+    unset tag
+    unset x_remote
     tmp=$(git rev-parse HEAD)
     echo "    git rev-parse HEAD=${tmp}" >> "${BUILD_TXT}"
     tmp=$(git rev-parse HEAD:share/jive)
     echo "    git rev-parse HEAD:share/jive=${tmp}" >> "${BUILD_TXT}"
     tmp=$(git rev-parse HEAD:src)
     echo "    git rev-parse HEAD:src=${tmp}" >> "${BUILD_TXT}"
-
     unset tmp
-    unset x_remote
-    unset x_branch
 
 	git submodule update --init --recursive
 
