@@ -29,14 +29,8 @@ function defaultSettings(self)
 end
 
 function configureApplet(self)
-    local icon
-    local skin = jiveMain:getDefaultSkin()
-
-    if skin == 'JogglerSkin' or skin == 'PiGridSkin' then
-        icon = jiveMain:getSkinParamOrNil('piCorePlayerStyle')
-    else
-        icon = 'hm_settings'
-    end
+    local icon = jiveMain:getSkinParamOrNil('piCorePlayerStyle') or 'hm_settings'
+    local icon_save = jiveMain:getSkinParamOrNil('piCorePlayerSaveStyle') or 'hm_sdcard'
 
 	-- we only register the menu her, as registerApplet is being called before the skin is initialized
     jiveMain:addItem(
@@ -47,9 +41,23 @@ function configureApplet(self)
     		function(applet, ...) 
     			applet:menu(...)
     		end,
-    		100,
+    		110,
     		nil,
 		icon
+    	)
+    )
+
+    jiveMain:addItem(
+    	self:menuItem(
+    		'piCorePlayerAppletSave',
+    		'settings',
+    		'Save Settings to SD Card',
+    		function(applet, ...) 
+    			applet:saveToSDCard(...)
+    		end,
+    		120,
+    		nil,
+		icon_save
     	)
     )
 
