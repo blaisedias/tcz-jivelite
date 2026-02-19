@@ -1,0 +1,8 @@
+Release 2.1.0
+- do not use concatenation in debug messages
+- do not apply default joggler skin patch
+- handle trimmed the set of skins and image files
+- refactor to make platform support to obviate
+  the need for lua source file patching
+- add save settings to settings menu
+Release 2.0.0
