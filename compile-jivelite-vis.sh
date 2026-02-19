@@ -33,41 +33,35 @@ esac
     echo "########### compiling for $jivelitebranch ############"
 	rm -rf jivelite
 	git clone https://github.com/blaisedias/jivelite.git -b $jivelitebranch
-    date -R > "${BUILD_TXT}"
+    build_date=$(date -R)
+    echo $build_date > "${BUILD_TXT}"
 
     echo "tcz_jivelite:" >> "${BUILD_TXT}"
-    x_remote=$(git remote  -v | grep fetch | sed -e 's#^origin\t##' -e 's# .*##')
-    x_branch=$(git branch --show-current)
-    echo "    git repository=${x_remote} branch=${x_branch}" >> "${BUILD_TXT}"
-    unset x_remote
-    unset x_branch
-    tag=$(git tag --points-at HEAD)
-    if [ "$tag" != "" ] ; then
-        echo "    tags=$tag" >> "${BUILD_TXT}"
+    tcz_jl_remote=$(git remote  -v | grep fetch | sed -e 's#^origin\t##' -e 's# .*##')
+    tcz_jl_branch=$(git branch --show-current)
+    echo "    git repository=${tcz_jl_remote} branch=${tcz_jl_branch}" >> "${BUILD_TXT}"
+    tcz_jl_tag=$(git tag --points-at HEAD)
+    if [ "$tcz_jl_tag" != "" ] ; then
+        echo "    tags=$tcz_jl_tag" >> "${BUILD_TXT}"
     fi
-    unset tag
-    tmp=$(git rev-parse HEAD)
-    echo "    git rev-parse HEAD=${tmp}" >> "${BUILD_TXT}"
-    unset tmp
+    tcz_jl_head=$(git rev-parse HEAD)
+    echo "    git rev-parse HEAD=${tcz_jl_head}" >> "${BUILD_TXT}"
 
 	cd jivelite
     echo "jivelite:" >> "${BUILD_TXT}"
-    x_remote=$(git remote  -v | grep fetch | sed -e 's#^origin\t##' -e 's# .*##')
-    tag=$(git tag --points-at HEAD)
-    if [ "$tag" != "" ] ; then
-    	echo "    git repository=${x_remote} tag=${tag}" >> "${BUILD_TXT}"
+    jl_remote=$(git remote  -v | grep fetch | sed -e 's#^origin\t##' -e 's# .*##')
+    jl_tag=$(git tag --points-at HEAD)
+    if [ "$jl_tag" != "" ] ; then
+    	echo "    git repository=${jl_remote} tag=${jl_tag}" >> "${BUILD_TXT}"
     else
-    	echo "    git repository=${x_remote} branch=${jivelitebranch}" >> "${BUILD_TXT}"
+    	echo "    git repository=${jl_remote} branch=${jivelitebranch}" >> "${BUILD_TXT}"
     fi
-    unset tag
-    unset x_remote
-    tmp=$(git rev-parse HEAD)
-    echo "    git rev-parse HEAD=${tmp}" >> "${BUILD_TXT}"
-    tmp=$(git rev-parse HEAD:share/jive)
-    echo "    git rev-parse HEAD:share/jive=${tmp}" >> "${BUILD_TXT}"
-    tmp=$(git rev-parse HEAD:src)
-    echo "    git rev-parse HEAD:src=${tmp}" >> "${BUILD_TXT}"
-    unset tmp
+    jl_head=$(git rev-parse HEAD)
+    echo "    git rev-parse HEAD=${jl_head}" >> "${BUILD_TXT}"
+    jl_head_share_jive=$(git rev-parse HEAD:share/jive)
+    echo "    git rev-parse HEAD:share/jive=${jl_head_share_jive}" >> "${BUILD_TXT}"
+    jl_head_src=$(git rev-parse HEAD:src)
+    echo "    git rev-parse HEAD:src=${jl_head_src}" >> "${BUILD_TXT}"
 
 	git submodule update --init --recursive
 
@@ -104,7 +98,34 @@ if [ "$git_version" == "" ] ; then
     git_version="${jivelitebranch}-r${tmp}"
 fi
 echo "#define JIVE_VERSION \"${base_binary_version}-${git_version}\"" > src/version.h
-sed -i -e "s/^local\s*version\s*=.*/local version=\"${git_version}\"/" share/jive/jive/utils/version.lua
+sed -i -e "s/^local\s*version\s*=.*/local version=\"${base_binary_version}-${git_version}\"/" share/jive/jive/utils/version.lua
+# add build info to version lua file
+echo "" >>  share/jive/jive/utils/version.lua
+echo "BuildInfo = {" >>  share/jive/jive/utils/version.lua
+echo "'date: ${build_date}'," >>  share/jive/jive/utils/version.lua
+echo "'tcz_jivelite:'," >>  share/jive/jive/utils/version.lua
+echo "'  ${tcz_jl_remote}'," >>  share/jive/jive/utils/version.lua
+echo "'  branch: ${tcz_jl_branch}'," >>  share/jive/jive/utils/version.lua
+if [ "$tcz_jl_tag" != "" ] ; then
+    echo "'  tag: ${tcz_jl_tag}'," >>  share/jive/jive/utils/version.lua
+fi
+echo "'  commits:'," >>  share/jive/jive/utils/version.lua
+echo "'    ${tcz_jl_head}'," >>  share/jive/jive/utils/version.lua
+
+echo "'jivelite:'," >>  share/jive/jive/utils/version.lua
+echo "'  ${jl_remote}'," >>  share/jive/jive/utils/version.lua
+echo "'  branch: ${jivelitebranch}'," >>  share/jive/jive/utils/version.lua
+if [ "$jl_tag" != "" ] ; then
+    echo "'  tag: ${jl_tag}'," >>  share/jive/jive/utils/version.lua
+fi
+echo "'  commits:'," >>  share/jive/jive/utils/version.lua
+echo "'    ${jl_head}'," >>  share/jive/jive/utils/version.lua
+echo "'  src:'," >>  share/jive/jive/utils/version.lua
+echo "'    ${jl_head_src}'," >>  share/jive/jive/utils/version.lua
+echo "'  share/jive:'," >>  share/jive/jive/utils/version.lua
+echo "'    ${jl_head_share_jive}'," >>  share/jive/jive/utils/version.lua
+
+echo "}" >>  share/jive/jive/utils/version.lua
 make all || exit 2
 
 if [ ! -d lua-5.1.5 ]; then
